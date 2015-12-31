@@ -17,6 +17,12 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# PyCharm config
+..idea/
+
+# Remove *.pyc files
+*.pyc
+
 # =========================
 # Operating System Files
 # =========================
@@ -45,6 +51,3 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-
-# remove .pyc file
-*.pyc
