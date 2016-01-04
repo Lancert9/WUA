@@ -18,8 +18,8 @@ class AnomalyCollector:
         :param a_record: UrlRecord
         """
         self.__anomalies.append(a_record)
-        host = a_record.getHost()
-        sip = a_record.getSip()
+        host = a_record.get_host()
+        sip = a_record.get_sip()
         if host in self.__host_sip:
             self.__host_sip[host].add(sip)
         else:

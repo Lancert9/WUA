@@ -109,7 +109,7 @@ class HostModel:
         host_url_address = 'E:\\Program Files\\PyCharm\\myWorkSpace\\WUA\\data_container\\Host\\%s_urls' % self.__hostname
         with open(host_url_address, 'wb') as outfile:
             for record in self.__records:
-                url = record.getUrl()
+                url = record.get_url()
                 outfile.write('%s\n' % url)
             outfile.flush()
 
@@ -117,7 +117,7 @@ class HostModel:
         host_para_prop_address = 'E:\\Program Files\\PyCharm\\myWorkSpace\\WUA\\data_container\\Host\\%s_para_prop' % self.__hostname
         with open(host_para_prop_address, 'wb') as outfile:
             for record in self.__records:
-                path = record.getPathCode()
+                path = record.get_path_code()
                 outfile.write("PATH: %s\n" % path)
                 # {variable_i : {special_symbols_i: count, -SUM-: sum_count}}
                 para_value_dict = self.__path_para_dict.get(path, {})
@@ -138,15 +138,15 @@ class HostModel:
         else:
             self.__records[a_record] = 1
         self.__url_amount += 1
-        sip = a_record.getSip()
+        sip = a_record.get_sip()
         self.__sips.add(sip)
 
         # add new record's path into model's path status
-        a_path = a_record.getPathCode()
+        a_path = a_record.get_path_code()
         self.__pathCellCount(a_path)
 
         # add new record's parameter into model's parameter status
-        a_para_status_dict = a_record.getParaStatus()
+        a_para_status_dict = a_record.get_para_status()
         self.__paraStatusCount(a_para_status_dict)
 
         pattern_flag = self.__pattern_controller.judgePattern(self)
@@ -164,7 +164,7 @@ class HostModel:
         :return: dict --> {str: float} -- url's encoded path map to it's probability.
         """
         a_path_prop = CalProp.calPathProp({a_record: 1}, self.__path_cell, self.__2path_cells)[0]
-        a_path_code = a_record.getPathCode()
+        a_path_code = a_record.get_path_code()
         return {a_path_code: a_path_prop}
 
     def calSinglePathProp_modi(self, a_record):
@@ -174,7 +174,7 @@ class HostModel:
         :return: dict --> {str: float} -- url's encoded path map to it's probability.
         """
         a_path_prop = CalProp.calPathProp_modi({a_record: 1}, self.__path_cell, self.__2path_cells)[0]
-        a_path_code = a_record.getPathCode()
+        a_path_code = a_record.get_path_code()
         return {a_path_code: a_path_prop}
 
     def getModelPathT(self, percentage):

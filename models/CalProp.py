@@ -31,7 +31,7 @@ def calPathProp(records_dict, path_dict, path2_dict):
 
     path_props = []     # a dict to contain path probability of records_dict's item
     for record, count in records_dict.items():
-        path_code = record.getPathCode()
+        path_code = record.get_path_code()
         path_list = path_code.split('/')
         total_prop = float(0)
         v = float(len(path_dict))   # the total type of words(a particular part of the path)
@@ -74,7 +74,7 @@ def calPathProp_modi(records_dict, path_dict, path2_dict):
 
     path_props = []     # a dict to contain path probability of records_dict's item
     for record, count in records_dict.items():
-        path_code = record.getPathCode()
+        path_code = record.get_path_code()
         path_list = path_code.split('/')
         path_length = len(path_list)
         total_prop = float(0)
@@ -108,12 +108,12 @@ def detectParaProp(a_record, path_para_dict, threshold):
                       Otherwise, when key is 'Anomaly', it means parameter part of record is anomaly,
                       and the key 'Anomaly' map to detail reason.
     """
-    a_para_code = repr(a_record.getParaCode())
+    a_para_code = repr(a_record.get_para_code())
     para_prop_result = {}
     # para_status_dict = {'path': path_code, 'para': {variable1: ([special_symbols_set]), ...}}
     # or
     # para_status_dict = {'path': path_code, 'para': 'NOT_EXIST'}
-    para_status_dict = a_record.getParaStatus()
+    para_status_dict = a_record.get_para_status()
     # record's path
     a_path = para_status_dict['path']
     # record's parameter

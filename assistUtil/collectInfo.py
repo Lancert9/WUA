@@ -17,7 +17,7 @@ def collectPath():
 
     with open(outfile_address, 'wb') as outfile:
         for record, count in records_list.items():
-            path_code = record.getPathCode()
+            path_code = record.get_path_code()
             path_code = ' '.join(path_code.split('/'))
             # for i in range(count):
             #     outfile.write('%s\n' % path_code)
@@ -37,8 +37,8 @@ def collectUrl():
 
     with open(outfile_address, 'wb') as outfile:
         for record, count in records_list.items():
-            path_code = record.getPathCode()
-            para_code = record.getParaCode()
+            path_code = record.get_path_code()
+            para_code = record.get_para_code()
             for i in range(count):
                 outfile.write('%s%s\n' % (path_code, para_code))
 

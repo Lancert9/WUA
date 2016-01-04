@@ -41,7 +41,7 @@ def main():
                 record = line.strip(' \n').split('\t')
                 if len(record) == 13 and record[_host] != '':
                     a_url = UrlRecord(record)
-                    current_model = host_collector.getHostModel(a_url.getHost())
+                    current_model = host_collector.getHostModel(a_url.get_host())
                     pattern_flag = current_model.getDetectFlag()
                     # Judge Host-model's pattern('Study ready' or 'Study...')
                     if pattern_flag == 'Study ready':

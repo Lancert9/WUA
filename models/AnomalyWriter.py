@@ -28,7 +28,7 @@ class AnomalyWriter:
         try:
             with open(self.__outfile_address, 'ab') as outfile:
                 outfile.write('%s\n' % a_anomaly_status['Reason'])
-                outfile.write('\t%s\n' % a_record.getUrl())
+                outfile.write('\t%s\n' % a_record.get_url())
         except IOError:
             print 'AnomalyWriter IO ERROR'
             raise
@@ -41,14 +41,14 @@ class AnomalyWriter:
         try:
             with open(self.__outfile_address, 'ab') as outfile:
                 outfile.write('%s\n' % a_anomaly_status['Reason'])
-                outfile.write('\t%s\n' % a_record.getContent())
+                outfile.write('\t%s\n' % a_record.get_content())
         except IOError:
             print 'AnomalyWriter IO ERROR'
             raise
 
     def writeTimeAttribute(self, a_record):
         with open(self.outfile_address_2, 'ab') as outfile:
-            outfile.write('%s\t%s\n' % (a_record.getTimeStamp(), a_record.getUrl()))
+            outfile.write('%s\t%s\n' % (a_record.get_timestamp(), a_record.get_url()))
 
     def writePathResult(self, a_record, a_anomaly_status):
         """
@@ -57,7 +57,7 @@ class AnomalyWriter:
         """
         try:
             with open(self.__outfile_address, 'ab') as outfile:
-                outfile.write('%s\n' % a_record.getUrl())
+                outfile.write('%s\n' % a_record.get_url())
                 outfile.write('\t%s\n' % a_anomaly_status['path_para'])
         except IOError:
             print 'AnomalyWriter IO ERROR'
