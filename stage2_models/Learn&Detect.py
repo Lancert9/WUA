@@ -5,8 +5,6 @@
 from UrlRecord import UrlRecord
 from HostCollector import HostCollector
 from AnomalyDetector import AnomalyDetector
-from AnomalyCollector import AnomalyCollector
-from ResultController import ResultController
 from AnomalyWriter import AnomalyWriter
 import datetime
 import pickle
@@ -23,8 +21,6 @@ host_collector_address = base_address + '\\CompleteModel\\complete_model_filtere
 def main():
     host_collector = HostCollector()
     anomaly_detector = AnomalyDetector()
-    anomaly_collector = AnomalyCollector()
-    result_controller = ResultController()
     anomaly_writer = AnomalyWriter(whole_result_address)
 
     try:
@@ -41,7 +37,7 @@ def main():
                 record = line.strip(' \n').split('\t')
                 if len(record) == 13 and record[_host] != '':
                     a_url = UrlRecord(record)
-                    current_model = host_collector.getHostModel(a_url.get_host())
+                    current_model = host_collector.get_host_model(a_url.get_host())
                     pattern_flag = current_model.getDetectFlag()
                     # Judge Host-model's pattern('Study ready' or 'Study...')
                     if pattern_flag == 'Study ready':
@@ -59,11 +55,7 @@ def main():
                         anomaly_status = anomaly_detector.detect(a_url, current_model)
                         # If the record is detected to be anomaly
                         if anomaly_status['Result'] is True:
-                            valid_flag = result_controller.isValid(a_url, anomaly_collector)
-                            if valid_flag is True:
-                                anomaly_writer.writeResult(a_url, anomaly_status)
-                            else:
-                                current_model.reStudy()
+                            anomaly_writer.writeResult(a_url, anomaly_status)
                     elif pattern_flag == 'Study...':
                         current_model.addUrl(a_url)
                     else:

@@ -13,7 +13,7 @@ def collectPath():
     infile_address = "E:\\Program Files\\PyCharm\\myWorkSpace\\WUA\\data_container\\CompleteModel\\HuaJiao_30_host_collector.pickle"
     with open(infile_address, 'rb') as infile:
         a_host_collector = pickle.load(infile)
-        a_model = a_host_collector.getHostModel('live.huajiao.com')
+        a_model = a_host_collector.get_host_model('live.huajiao.com')
         records_list = a_model.getModelPathProps()
         threshold_dict = a_model.getModePathPropsThreshold()
     smallest = min(records_list)

@@ -11,11 +11,11 @@ class HostCollector:
     def __init__(self):
         self.__hosts = {}   # @item host(str) : host-model(HostModel)
 
-    def getHostModel(self, host):
+    def get_host_model(self, host):
         """
         Depending on a host, get the HostModel.
-        :param host: str
-        :return: HostModel
+        :param host: str -> the destination host
+        :return: HostModel -> the destination host-model
         """
         if host in self.__hosts:
             return self.__hosts[host]
@@ -24,9 +24,9 @@ class HostCollector:
             self.__hosts[host] = host_model
             return host_model
 
-    def showCollector(self):
+    def show_collector(self):
         """
         When testing this Class, it sometimes need to return the collector.
-        :return: dict --> {str: ModelHost}
+        :return: dict -> {str: HostModel}
         """
         return self.__hosts

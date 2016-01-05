@@ -13,7 +13,7 @@ __author__ = 'j-lijiawei'
 class HostModel:
     def __init__(self, host_name=''):
         """
-        :param host_name: str -- the host of this HostModel.
+        :param host_name: str -> the host of this HostModel.
 
         """
         """

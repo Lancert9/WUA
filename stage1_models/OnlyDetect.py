@@ -41,7 +41,7 @@ def main():
                 record = line.split('\t')
                 if len(record) == 13 and record[_host] != '':
                     a_record = UrlRecord(record)
-                    current_model = host_collector.getHostModel(a_record.get_host())
+                    current_model = host_collector.get_host_model(a_record.get_host())
                     pattern_flag = current_model.getDetectFlag()
                     if pattern_flag == 'Study ready':
                         if detect_time_flag:
