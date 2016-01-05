@@ -12,8 +12,10 @@ def combine(infile_base_address, file_number, outfile_address):
 
 
 if __name__ == "__main__":
-    a_infile_base_address = "D:\\My360File\\web_alert\\skyeye-sensor\\result_attack_20151113_1\\unzip"
-    a_file_number = 11
-    a_outfile_address = "D:\\My360File\\web_alert\\skyeye-sensor\\result_attack_20151113_1\\unzip\\all"
+    a_infile_base_address = "E:\\WUA_data_container\\data_container\\2016-12-1_30days\\Skyeye_Sensor\\" \
+                            "Attack\\attack_mall.360.com_20151231_31\\unzip"
+    a_file_number = 392
+    a_outfile_address = "E:\\WUA_data_container\\data_container\\2016-12-1_30days\\Skyeye_Sensor\\" \
+                        "Attack\\attack_mall.360.com_20151231_31\\unzip\\attack_input"
     combine(a_infile_base_address, a_file_number, a_outfile_address)
     print "Combine finished"
