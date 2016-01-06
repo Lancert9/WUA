@@ -65,7 +65,7 @@ def main():
                             else:
                                 current_model.reStudy()
                     elif pattern_flag == 'Study...':
-                        current_model.addUrl(a_url)
+                        current_model.add_record(a_url)
                     else:
                         raise ValueError('Lancer says: pattern selection error.')
                 record_num += 1

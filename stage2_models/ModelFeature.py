@@ -1,5 +1,11 @@
 __author__ = 'j-lijiawei'
 
+
+class ModelFeature:
+    pass
+
+
+
 """
     Path Status
 """

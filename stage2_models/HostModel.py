@@ -4,38 +4,46 @@
         It contains the host's RecordBox and all features.
 """
 from RecordBox import RecordBox
-import ModelFeature as MF
+from ModelFeature import ModelFeature
 
 __author__ = 'j-lijiawei'
 
 
 class HostModel:
-    def __init__(self, host_name=''):
+    def __init__(self, host=''):
         """
-        :param host_name: str -> the host of this HostModel.
+        :param host: str -> the host of this HostModel.
 
         """
-        self.__hostname = host_name     # The host of this host model.
-        self.__record_box = RecordBox()    # Contain model's training record.
-        self.__pattern_controller = PatternController()     # Determine when to calculate the whole model.
+        self.__host = host
+        self.__record_box = RecordBox()
+        self.__feature_model = ModelFeature()
+        self.__model_feature_all = {}   # The Host Model's feature.
 
-    def addUrl(self, a_record):
+    def add_record(self, a_record):
         """
-        :param a_record: UrlRecord
+        :param a_record: UrlRecord -> the record to be added.
         """
+        self.__record_box.add_record(a_record)
 
+    def generate_feature(self):
+        self.__feature_model.add_train_records(self.__record_box)
+        self.__model_feature_all = self.__feature_model.generate_feature()
 
-    def getHostName(self):
+    def get_host(self):
         """
-        get the host field of this HostModel.
-        :return:
+        get the host name of this HostModel.
+        :return: str -> host name.
         """
-        return self.__hostname
+        return self.__host
 
-    def getDetectFlag(self):
-        """
-        If this HostModel's study process is over and it is ready to detect,
-        this function return 'Study ready', otherwise it return 'Study...'.
-        :return: str
-        """
-        return self.__detect_flag
+    def get_model_feature(self):
+        return self.__model_feature_all
+
+    def __str__(self):
+        information = "Host Model:\n" \
+                      "\tHost: %s\n" \
+                      "\tRecord number: %s\n" \
+                      "\tSip number: %s" \
+                      % (self.__host, self.__record_box.get_record_num(), self.__record_box.get_sip_num())
+        return information
