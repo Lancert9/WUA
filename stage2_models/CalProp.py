@@ -6,49 +6,6 @@ from math import log
 __author__ = 'j-lijiawei'
 
 
-def calPathProp(records_dict, path_dict, path2_dict):
-    """
-    1. P(A/B/C/D) = P(A) * P(B|A) * P(C|AB) * P(D|ABC)
-        depending on Bigram model, we can get:
-               = P(A) * P(B|A) * P(C|B) * P(D|C)
-    2. use 'log' to transform the equation:
-        logP(A/B/C/D) = logP(A) + logP(B|A) + logP(C|B) + logP(D|C)
-    3. 'A' must be 'PATH_HEAD', and we only care about the relative value, so 'logP(A)' can be ignored:
-        logP(A/B/C/D) = logP(B|A) + logP(C|B) + logP(D|C)
-    4. depending on maximum likelihood estimate, we can have:
-        P(B|A) = Count(A, B) / Count(A); P(C|B) = Count(B, C) | Count(B); P(D|C) = Count(C, D) / Count(C)
-        Note: 'Count(A, B)' means the total count of string 'AB' that 'B' occur behind 'A'
-              'V' is the total type of words
-    5. depending on Laplace-smooth, we can transform the equation:
-        P(B|A) = (Count(A, B) + 1) / (Count(A) + V); P(C|B) = (Count(B, C) + 1) / (Count(B) + V)
-        P(D|C) = (Count(C, D) + 1) / (Count(C) + V)
-
-    :param records_dict: dict --> {UrlRecord: int} -- UrlRecord map to it's amounts
-    :param path_dict: dict --> {str: int} -- Different tuple of path map to it's frequency of the occurrence
-    :param path2_dict: dict --> {str: int} -- two adjacent tuple map to it's frequency of the occurrence
-    :return: list[float] -- each path probability in records_dict
-    """
-
-    path_props = []     # a dict to contain path probability of records_dict's item
-    for record, count in records_dict.items():
-        path_code = record.get_path_code()
-        path_list = path_code.split('/')
-        total_prop = float(0)
-        v = float(len(path_dict))   # the total type of words(a particular part of the path)
-        # SUM logP(y|x) for each two adjacent parts
-        for i in range(len(path_list) - 1):
-            x = path_list[i]
-            y = path_list[i + 1]
-            x_y = x + ',' + y   # in previous encoding, I transform adjacent 'xy' to 'x,y'
-            c_x = float(path_dict.get(x, 0))
-            c_x_y = float(path2_dict.get(x_y, 0))
-            prop_i = log((c_x_y + 1) / (c_x + v))
-            total_prop += prop_i
-        for i in range(count):
-            path_props.append(total_prop)
-    return path_props
-
-
 def calPathProp_modi(records_dict, path_dict, path2_dict):
     """
     1. P(A/B/C/D) = P(A) * P(B|A) * P(C|AB) * P(D|ABC)

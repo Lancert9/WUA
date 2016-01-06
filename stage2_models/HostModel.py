@@ -27,8 +27,9 @@ class HostModel:
         self.__record_box.add_record(a_record)
 
     def generate_feature(self):
+        self.__record_box.active()
         self.__feature_model.add_train_records(self.__record_box)
-        self.__model_feature_all = self.__feature_model.generate_feature()
+        self.__feature_model.generate_all_features()
 
     def get_host(self):
         """
@@ -38,7 +39,7 @@ class HostModel:
         return self.__host
 
     def get_model_feature(self):
-        return self.__model_feature_all
+        return self.__model_feature_all.get_all_features()
 
     def __str__(self):
         information = "Host Model:\n" \
