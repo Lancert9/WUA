@@ -38,28 +38,21 @@ def main():
                 if len(record) == 13 and record[_host] != '':
                     a_url = UrlRecord(record)
                     current_model = host_collector.get_host_model(a_url.get_host())
-                    pattern_flag = current_model.getDetectFlag()
-                    # Judge Host-model's pattern('Study ready' or 'Study...')
-                    if pattern_flag == 'Study ready':
-                        if detect_time_flag:
-                            detect_time_flag = False
-                            study_ready_time = datetime.datetime.now()
-                            study_interval = study_ready_time - begin_time
-                            study_record_num = record_num
-                            print 'Study consuming: %s' % study_interval
-                            print 'Study Record: %s' % study_record_num
-                            print '\tUrl amount: %s\tDifferent url amount: %s\tDifferent sip: %s\t' % \
-                                (current_model.getUrlAmount(), current_model.getDifUrlAmount(),
-                                 current_model.getSipAmount())
-                        # Detect whether the record is anomaly
-                        anomaly_status = anomaly_detector.detect(a_url, current_model)
-                        # If the record is detected to be anomaly
-                        if anomaly_status['Result'] is True:
-                            anomaly_writer.writeResult(a_url, anomaly_status)
-                    elif pattern_flag == 'Study...':
-                        current_model.addUrl(a_url)
-                    else:
-                        raise ValueError('Lancer says: pattern selection error.')
+                    if detect_time_flag:
+                        detect_time_flag = False
+                        study_ready_time = datetime.datetime.now()
+                        study_interval = study_ready_time - begin_time
+                        study_record_num = record_num
+                        print 'Study consuming: %s' % study_interval
+                        print 'Study Record: %s' % study_record_num
+                        print '\tUrl amount: %s\tDifferent url amount: %s\tDifferent sip: %s\t' % \
+                            (current_model.getUrlAmount(), current_model.getDifUrlAmount(),
+                             current_model.getSipAmount())
+                    # Detect whether the record is anomaly
+                    anomaly_status = anomaly_detector.detect(a_url, current_model)
+                    # If the record is detected to be anomaly
+                    if anomaly_status['Result'] is True:
+                        anomaly_writer.writeResult(a_url, anomaly_status)
                 record_num += 1
                 if record_num % 10000 == 0:
                     print 'Record completed: ', record_num,
