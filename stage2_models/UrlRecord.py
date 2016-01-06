@@ -81,7 +81,7 @@ class UrlRecord:
         :param other: UrlRecord -> the url to be compared
         :return: boolean -> True(equal) or False(not equal)
         """
-        if self.__path_code == other.get_path_code():
+        if self.__path_code == other.get_path_code() and self.__para_code == other.get_para_code():
             return True
         else:
             return False
