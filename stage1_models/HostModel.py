@@ -117,7 +117,7 @@ class HostModel:
         host_para_prop_address = 'E:\\Program Files\\PyCharm\\myWorkSpace\\WUA\\data_container\\Host\\%s_para_prop' % self.__hostname
         with open(host_para_prop_address, 'wb') as outfile:
             for record in self.__records:
-                path = record.get_path_code()
+                path = record.get_path()
                 outfile.write("PATH: %s\n" % path)
                 # {variable_i : {special_symbols_i: count, -SUM-: sum_count}}
                 para_value_dict = self.__path_para_dict.get(path, {})
@@ -142,7 +142,7 @@ class HostModel:
         self.__sips.add(sip)
 
         # add new record's path into model's path status
-        a_path = a_record.get_path_code()
+        a_path = a_record.get_path()
         self.__pathCellCount(a_path)
 
         # add new record's parameter into model's parameter status
@@ -164,7 +164,7 @@ class HostModel:
         :return: dict --> {str: float} -- url's encoded path map to it's probability.
         """
         a_path_prop = CalProp.calPathProp({a_record: 1}, self.__path_cell, self.__2path_cells)[0]
-        a_path_code = a_record.get_path_code()
+        a_path_code = a_record.get_path()
         return {a_path_code: a_path_prop}
 
     def calSinglePathProp_modi(self, a_record):
@@ -174,7 +174,7 @@ class HostModel:
         :return: dict --> {str: float} -- url's encoded path map to it's probability.
         """
         a_path_prop = CalProp.calPathProp_modi({a_record: 1}, self.__path_cell, self.__2path_cells)[0]
-        a_path_code = a_record.get_path_code()
+        a_path_code = a_record.get_path()
         return {a_path_code: a_path_prop}
 
     def getModelPathT(self, percentage):

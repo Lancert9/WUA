@@ -6,10 +6,8 @@ from RecordBox import RecordBox
 __author__ = 'j-lijiawei'
 
 
-class ModelFeature:
+class FeatureModel:
     def __init__(self):
-        self.__record_box = RecordBox()    # Containing the training records.
-
         """
             All features of the Host Model.
 
@@ -19,21 +17,17 @@ class ModelFeature:
         """
         self.__model_feature_all = dict()
 
-        # Path Probability Status: path element map to it's occurrence amount.
-        self.__path_1element_prop = dict()
-        self.__path_2element_prop = dict()
+        # Path Probability Status = (path_1element_prop, path_2element_prop)
+        self.__path_element_prop = (dict(), dict())
 
-        # Parameter Special Symbols Status: parameter element map to it's occurrence amount.
+        # Parameter Special Symbols Status
         self.__para_special_symbols = dict()
 
-    def add_train_records(self, a_record_box):
-        self.__record_box = a_record_box
-
     def generate_all_features(self):
-        self.__generate_path_element_prop()
-        self.__generate___para_special_symbols()
+        self.generate_path_element_prop()
+        self.generate_para_special_symbols()
 
-    def __generate_path_element_prop(self):
+    def generate_path_element_prop(self):
         """
         Path Probability Status:
             path element map to it's occurrence amount.
@@ -44,6 +38,7 @@ class ModelFeature:
             {string: int} -> {'element_1,element_2': amount}
         :return:
         """
+        pass
 
 
     def __pathCellCount(self, path):
@@ -63,11 +58,17 @@ class ModelFeature:
                 else:
                     self.__2path_cells[cells] = 1
 
-    def __generate___para_special_symbols(self):
+    def generate_para_special_symbols(self):
         pass
 
     def get_all_features(self):
         return self.__model_feature_all
+
+    def get_path_element_prop(self):
+        return self.__path_1element_prop, self.__path_2element_prop
+
+    def get_para_element_prop(self):
+        return self.__para_special_symbols
 
     def __paraStatusCount(self, para_status_dict):
         """

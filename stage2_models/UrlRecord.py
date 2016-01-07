@@ -30,6 +30,7 @@ class UrlRecord:
         self.__data = content_list[_data]
 
         """
+
             Decoding and recording path and parameter segment
         """
         self.__path_code, self.__para_code = self.__set_url_code(self.__url)
@@ -81,7 +82,7 @@ class UrlRecord:
         :param other: UrlRecord -> the url to be compared
         :return: boolean -> True(equal) or False(not equal)
         """
-        if self.__path_code == other.get_path_code() and self.__para_code == other.get_para_code():
+        if self.__path_code == other.get_path() and self.__para_code == other.get_para():
             return True
         else:
             return False
@@ -155,14 +156,14 @@ class UrlRecord:
         """
         return self.__data
 
-    def get_path_code(self):
+    def get_path(self):
         """
         get url's encoded path segment.
         :return: str -> encoded path segment
         """
         return self.__path_code
 
-    def get_para_code(self):
+    def get_para(self):
         """
         get url's encoded parameter segment.
         :return: str -> encoded parameter segment

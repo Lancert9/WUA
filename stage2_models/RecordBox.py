@@ -14,13 +14,22 @@ class RecordBox:
         self.__all_records = list()
         self.__sip_box = set()
 
-        self.__path_code_list = list()
-        self.__para_code_dict = dict()
+        self.__path_list = list()
+        self.__para_dict = dict()
 
     def add_record(self, a_record):
         self.__all_records.append(a_record)
         a_sip = a_record.get_sip()
         self.__sip_box.add(a_sip)
+
+    def active(self):
+        for record in self.__all_records:
+            # add path segment
+            path_code = record.get_path()
+            self.__path_list.append(path_code)
+
+            # add parameter segment
+            para_code = record.get_para()
 
     def get_record_num(self):
         return len(self.__all_records)
@@ -28,21 +37,11 @@ class RecordBox:
     def get_sip_num(self):
         return len(self.__sip_box)
 
-    def active(self):
-        for record in self.__all_records:
-            # add path segment
-            path_code = record.get_path_code()
-            self.__path_code_list.append(path_code)
+    def get_path_list(self):
+        return self.__path_list
 
-            # add parameter segment
-            para_code = record.get_para_code()
-            
-
-    def get_path_code_list(self):
-        return self.__path_code_list
-
-    def get_para_code_list(self):
-        return self.__para_code_dict
+    def get_para_dict(self):
+        return self.__para_dict
 
     def clear(self):
         pass

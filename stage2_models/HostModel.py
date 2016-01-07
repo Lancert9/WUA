@@ -4,7 +4,7 @@
         It contains the host's RecordBox and all features.
 """
 from RecordBox import RecordBox
-from ModelFeature import ModelFeature
+from FeatureModel import FeatureModel
 
 __author__ = 'j-lijiawei'
 
@@ -17,8 +17,7 @@ class HostModel:
         """
         self.__host = host
         self.__record_box = RecordBox()
-        self.__feature_model = ModelFeature()
-        self.__model_feature_all = {}   # The Host Model's feature.
+        self.__feature_model = FeatureModel()
 
     def add_record(self, a_record):
         """
@@ -39,7 +38,7 @@ class HostModel:
         return self.__host
 
     def get_model_feature(self):
-        return self.__model_feature_all.get_all_features()
+        return self.__feature_model.get_all_features()
 
     def __str__(self):
         information = "Host Model:\n" \
