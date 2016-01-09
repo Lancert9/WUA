@@ -15,7 +15,10 @@ class RecordBox:
         self.__sip_box = set()
 
         self.__path_list = list()
-        self.__para_dict = dict()
+        self.__variable_specialSymbol = dict()
+        self.__variable_value = dict()
+        self.__variable_composition = dict()
+        self.__variable_order = dict()
 
         # It map the private attribute string to it's value
         self.__attribute_map = {}
@@ -38,9 +41,17 @@ class RecordBox:
     def clear(self):
         pass
 
+    def __setitem__(self, key, value):
+        raise LookupError("It is not allow to set the attribute.")
+
+    def __getitem__(self, item):
+        return self.__attribute_map[item]
+
     def __generate_attribute_map(self):
         self.__attribute_map["record_num"] = len(self.__all_records)
         self.__attribute_map["sip_num"] = len(self.__sip_box)
         self.__attribute_map["path_list"] = self.__path_list
-        self.__attribute_map["para_dict"] = self.__para_dict
-
+        self.__attribute_map["variable_specialSymbol"] = self.__variable_specialSymbol
+        self.__attribute_map["variable_value"] = self.__variable_value
+        self.__attribute_map["variable_composition"] = self.__variable_composition
+        self.__attribute_map["variable_order"] = self.__variable_order

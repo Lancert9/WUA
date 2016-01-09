@@ -19,6 +19,10 @@ class HostModel:
         self.__record_box = RecordBox()
         self.__feature_model = FeatureModel()
 
+        # It map the private attribute string to it's value
+        self.__attribute_map = {}
+        self.__generate_attribute_map()
+
     def add_record(self, a_record):
         """
         :param a_record: UrlRecord -> the record to be added.
@@ -27,23 +31,22 @@ class HostModel:
 
     def generate_feature(self):
         self.__record_box.active()
-        self.__feature_model.add_train_records(self.__record_box)
-        self.__feature_model.generate_all_features()
-
-    def get_host(self):
-        """
-        get the host name of this HostModel.
-        :return: str -> host name.
-        """
-        return self.__host
-
-    def get_model_feature(self):
-        return self.__feature_model.get_all_features()
+        self.__feature_model.generate_all_features(self.__record_box)
 
     def __str__(self):
         information = "Host Model:\n" \
                       "\tHost: %s\n" \
                       "\tRecord number: %s\n" \
                       "\tSip number: %s" \
-                      % (self.__host, self.__record_box.get_record_num(), self.__record_box.get_sip_num())
+                      % (self.__host, self.__record_box["record_num"], self.__record_box["sip_num"])
         return information
+
+    def __setitem__(self, key, value):
+        raise LookupError("It is not allow to set the attribute.")
+
+    def __getitem__(self, item):
+        return self.__attribute_map[item]
+
+    def __generate_attribute_map(self):
+        self.__attribute_map["host"] = self.__host
+        self.__attribute_map["model_feature"] = self.__feature_model.get_all_features()
