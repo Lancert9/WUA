@@ -40,7 +40,6 @@ class FeatureModel:
         """
         pass
 
-
     def __pathCellCount(self, path):
         tmp = path.split('/')
         length = len(tmp)

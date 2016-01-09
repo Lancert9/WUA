@@ -17,6 +17,10 @@ class RecordBox:
         self.__path_list = list()
         self.__para_dict = dict()
 
+        # It map the private attribute string to it's value
+        self.__attribute_map = {}
+        self.__generate_attribute_map()
+
     def add_record(self, a_record):
         self.__all_records.append(a_record)
         a_sip = a_record.get_sip()
@@ -31,18 +35,12 @@ class RecordBox:
             # add parameter segment
             para_code = record.get_para()
 
-    def get_record_num(self):
-        return len(self.__all_records)
-
-    def get_sip_num(self):
-        return len(self.__sip_box)
-
-    def get_path_list(self):
-        return self.__path_list
-
-    def get_para_dict(self):
-        return self.__para_dict
-
     def clear(self):
         pass
+
+    def __generate_attribute_map(self):
+        self.__attribute_map["record_num"] = len(self.__all_records)
+        self.__attribute_map["sip_num"] = len(self.__sip_box)
+        self.__attribute_map["path_list"] = self.__path_list
+        self.__attribute_map["para_dict"] = self.__para_dict
 

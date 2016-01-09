@@ -29,11 +29,12 @@ class UrlRecord:
         self.__refer = content_list[_refer]
         self.__data = content_list[_data]
 
-        """
+        # Decoding and recording path and parameter segment
+        self.__path, self.__para = self.__set_url_code(self.__url)
 
-            Decoding and recording path and parameter segment
-        """
-        self.__path_code, self.__para_code = self.__set_url_code(self.__url)
+        # It map the private attribute string to it's value
+        self.__attribute_map = {}
+        self.__generate_attribute_map()
 
     @staticmethod
     def __set_url_code(url):
@@ -82,7 +83,7 @@ class UrlRecord:
         :param other: UrlRecord -> the url to be compared
         :return: boolean -> True(equal) or False(not equal)
         """
-        if self.__path_code == other.get_path() and self.__para_code == other.get_para():
+        if self.__path == other.get_path() and self.__para == other.get_para():
             return True
         else:
             return False
@@ -91,81 +92,23 @@ class UrlRecord:
         """
         :return: int -- the hash value of this UrlRecord
         """
-        return hash(self.__path_code)
+        return hash(self.__path)
 
-    def get_content(self):
-        """
-        get all fields of the record. Fields are separated by '\t'.
-        :return: str -> content field
-        """
-        return self.__content
+    def __setitem__(self, key, value):
+        raise LookupError("It is not allow to set the attribute.")
 
-    def get_timestamp(self):
-        """
-        get the timestamp filed of the record.
-        :return: str -> timestamp field
-        """
-        return self.__timeStamp
+    def __getitem__(self, item):
+        return self.__attribute_map[item]
 
-    def get_sip(self):
-        """
-        get the sip field of the record.
-        :return: str -> sip field
-        """
-        return self.__sip
-
-    def get_method(self):
-        """
-        get the method field of the record.
-        :return: str -> method field
-        """
-        return self.__method
-
-    def get_url(self):
-        """
-        get the url field of the record.
-        :return: str -> url field
-        """
-        return self.__url
-
-    def get_host(self):
-        """
-        get the host field of the record.
-        :return: str -> host field
-        """
-        return self.__host
-
-    def get_ua(self):
-        """
-        get the user-agent field of the record.
-        :return: str -> user-agent field
-        """
-        return self.__ua
-
-    def get_refer(self):
-        """
-        get the reference field of the record.
-        :return: str -> reference field
-        """
-        return self.__refer
-
-    def get_data(self):
-        """
-        get data field of the record.
-        :return: str -> data field
-        """
-        return self.__data
-
-    def get_path(self):
-        """
-        get url's encoded path segment.
-        :return: str -> encoded path segment
-        """
-        return self.__path_code
-
-    def get_para(self):
-        """
-        get url's encoded parameter segment.
-        :return: str -> encoded parameter segment
-        """
-        return self.__para_code
+    def __generate_attribute_map(self):
+        self.__attribute_map["content"] = self.__content
+        self.__attribute_map["timeStamp"] = self.__timeStamp
+        self.__attribute_map["sip"] = self.__sip
+        self.__attribute_map["method"] = self.__method
+        self.__attribute_map["url"] = self.__url
+        self.__attribute_map["host"] = self.__host
+        self.__attribute_map["ua"] = self.__ua
+        self.__attribute_map["refer"] = self.__refer
+        self.__attribute_map["data"] = self.__data
+        self.__attribute_map["path"] = self.__path
+        self.__attribute_map["para"] = self.__para
