@@ -98,6 +98,7 @@ class UrlRecord:
         raise LookupError("It is not allow to set the attribute.")
 
     def __getitem__(self, item):
+        assert item in self.__attribute_map, "It is a bad attribute: %s" % item
         return self.__attribute_map[item]
 
     def __generate_attribute_map(self):

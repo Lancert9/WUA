@@ -14,7 +14,7 @@ def cutOut(in_add, out_add, c_len):
         print e
 
 if __name__ == '__main__':
-    infileAddress = 'E:\\Program Files\\PyCharm\\myWorkSpace\\WUA\\data_container\\20150918_part'
-    outfileAddress = 'E:\\Program Files\\PyCharm\\myWorkSpace\\WUA\\data_container\\20150918_part_10000'
-    cutLength = 10000
+    infileAddress = 'E:\\Lancer\\360WUA\\WUA_data_container\\Flow\\Demo\\flow_415s'
+    outfileAddress = 'E:\\Lancer\\360WUA\\WUA_data_container\\Flow\\Demo\\flow_20s'
+    cutLength = 20
     cutOut(infileAddress, outfileAddress, cutLength)

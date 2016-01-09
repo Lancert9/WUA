@@ -2,10 +2,10 @@
     Main function.
     It contains the system of  module study and anomaly detection.
 """
-from UrlRecord import UrlRecord
-from HostCollector import HostCollector
-from AnomalyDetector import AnomalyDetector
-from AnomalyWriter import AnomalyWriter
+from stage2_models.UrlRecord import UrlRecord
+from stage2_models.HostCollector import HostCollector
+from stage2_models.AnomalyDetector import AnomalyDetector
+from stage2_models.AnomalyWriter import AnomalyWriter
 import datetime
 import pickle
 
@@ -37,7 +37,7 @@ def main():
                 record = line.strip(' \n').split('\t')
                 if len(record) == 13 and record[_host] != '':
                     a_url = UrlRecord(record)
-                    current_model = host_collector.get_host_model(a_url.get_host())
+                    current_model = host_collector.get_host_model(a_url["host"])
                     if detect_time_flag:
                         detect_time_flag = False
                         study_ready_time = datetime.datetime.now()
