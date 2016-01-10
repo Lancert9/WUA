@@ -30,3 +30,18 @@ class HostCollector:
         :return: dict -> {str: HostModel}
         """
         return self.__hosts
+
+    def __iter__(self):
+        return IterableCollector(self.__hosts)
+
+
+class IterableCollector:
+    def __init__(self, host_dict):
+        self.__host_dict = host_dict
+        self.__key_list = self.__host_dict.keys()
+        self.__index = 0
+
+    def next(self):
+        key = self.__key_list[self.__index]
+        self.__index += 1
+        return self.__host_dict[key]
