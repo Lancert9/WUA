@@ -2,7 +2,7 @@
     Main function.
     It contains the system of  module study and anomaly detection.
 """
-from stage2_models.UrlRecord import UrlRecord
+from stage2_models.FlowRecord import FlowRecord
 from stage2_models.HostCollector import HostCollector
 from stage2_models.AnomalyDetector import AnomalyDetector
 from stage2_models.AnomalyWriter import AnomalyWriter
@@ -36,7 +36,7 @@ def main():
             for line in infile:
                 record = line.strip(' \n').split('\t')
                 if len(record) == 13 and record[_host] != '':
-                    a_url = UrlRecord(record)
+                    a_url = FlowRecord(record)
                     current_model = host_collector.get_host_model(a_url["host"])
                     if detect_time_flag:
                         detect_time_flag = False

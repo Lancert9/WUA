@@ -127,14 +127,14 @@ class RecordBox:
         self.__attribute_map["variable_order"] = self.__variable_order
 
 if __name__ == '__main__':
-    from stage2_models.UrlRecord import UrlRecord
+    from stage2_models.FlowRecord import FlowRecord
     test_record_box = RecordBox()
     with open('E:\\Lancer\\360WUA\\WUA_data_container\\Flow\\Demo\\flow_20s', 'rb') as infile:
 
         for line in infile:
             line = line.strip(' \n').split('\t')
             if len(line) == 13 and line[_host] != '':
-                t_record = UrlRecord(line)
+                t_record = FlowRecord(line)
                 test_record_box.add_record(t_record)
     print 'Record add finished.'
     test_record_box.active()

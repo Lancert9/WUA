@@ -9,7 +9,7 @@ __author__ = 'j-lijiawei'
 (_access_time, _sip, _sport, _dip, _dport, _method, _uri, _host, _origin, _cookie, _uagent, _refer, _data) = range(13)
 
 
-class UrlRecord:
+class FlowRecord:
     def __init__(self, content_list=[''] * 13):
         """
         :param content_list: list[13] -- original flow record's 13 fields.

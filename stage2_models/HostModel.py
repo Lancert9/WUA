@@ -38,7 +38,7 @@ class HostModel:
                       "\tHost: %s\n" \
                       "\tRecord number: %s\n" \
                       "\tSip number: %s" \
-                      % (self.__host, self.__record_box["record_num"], self.__record_box["sip_num"])
+                      % (self.__host, self.__record_box['record_num'], self.__record_box['sip_num'])
         return information
 
     def __setitem__(self, key, value):
@@ -48,5 +48,7 @@ class HostModel:
         return self.__attribute_map[item]
 
     def __generate_attribute_map(self):
-        self.__attribute_map["host"] = self.__host
-        self.__attribute_map["model_feature"] = self.__feature_model.get_all_features()
+        self.__attribute_map['host'] = self.__host
+        self.__attribute_map['record_num'] = self.__record_box["record_num"]
+        self.__attribute_map['sip_num'] = self.__record_box['sip_num']
+        self.__attribute_map['model_feature'] = self.__feature_model
