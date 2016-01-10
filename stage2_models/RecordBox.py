@@ -79,14 +79,17 @@ class RecordBox:
                                 if char in special_symbols_list:
                                     self.__variable_specialSymbol[path][variable][char] = \
                                         self.__variable_specialSymbol[path][variable].setdefault(char, 0) + 1
+                                    self.__variable_specialSymbol[path][variable]['SUM'] += 1
                         else:
                             self.__variable_specialSymbol[path][variable] = {}
+                            self.__variable_specialSymbol[path][variable]['SUM'] = 0.0
                             for char in value:
                                 if char in special_symbols_list:
                                     self.__variable_specialSymbol[path][variable][char] = \
                                         self.__variable_specialSymbol[path][variable].setdefault(char, 0) + 1
                     else:
                         self.__variable_specialSymbol[path] = {variable: {}}
+                        self.__variable_specialSymbol[path][variable]['SUM'] = 0.0
                         for char in value:
                                 if char in special_symbols_list:
                                     self.__variable_specialSymbol[path][variable][char] = \
@@ -154,21 +157,21 @@ if __name__ == '__main__':
         #         for t_specialSymbols, t_count in t_specialSymbols_dict.items():
         #             outfile.write('\t\t\t%s:\t%d\n' % (t_specialSymbols, t_count))
 
-        # variable_value = test_record_box['variable_value']
-        # outfile.write('Variable_Value:\n')
-        # for t_path, t_variable_dict in variable_value.items():
-        #     outfile.write('\t%s:\n' % t_path)
-        #     for t_variable, t_value_list in t_variable_dict.items():
-        #         outfile.write('\t\t%s:\n' % t_variable)
-        #         for t_value in t_value_list:
-        #             outfile.write('\t\t\t%s\n' % repr(t_value))
-
-        variable_composition = test_record_box['variable_composition']
-        outfile.write('Variable_Composition:\n')
-        for t_path, t_variable_composition_set in variable_composition.items():
+        variable_value = test_record_box['variable_value']
+        outfile.write('Variable_Value:\n')
+        for t_path, t_variable_dict in variable_value.items():
             outfile.write('\t%s:\n' % t_path)
-            for t_variable_composition in t_variable_composition_set:
-                outfile.write('\t\t%s:\n' % t_variable_composition)
+            for t_variable, t_value_list in t_variable_dict.items():
+                outfile.write('\t\t%s:\n' % t_variable)
+                for t_value in t_value_list:
+                    outfile.write('\t\t\t%s\n' % repr(t_value))
+
+        # variable_composition = test_record_box['variable_composition']
+        # outfile.write('Variable_Composition:\n')
+        # for t_path, t_variable_composition_set in variable_composition.items():
+        #     outfile.write('\t%s:\n' % t_path)
+        #     for t_variable_composition in t_variable_composition_set:
+        #         outfile.write('\t\t%s:\n' % t_variable_composition)
 
         # variable_order = test_record_box['variable_order']
         # outfile.write('Variable_Order:\n')

@@ -51,7 +51,7 @@ class UrlRecord:
                 break
             path = path_decode
 
-        # combining the numerical part
+        # combine the successive numerical sequence.
         path_list = path.split('/')
         path_code = []
         for part in path_list:

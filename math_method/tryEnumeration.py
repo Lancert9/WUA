@@ -8,17 +8,17 @@ __author__ = 'j-lijiawei'
 
 def is_enumerated(values_input):
     """
-    To judge the url parameter (enumerated type or not).
+    To judge the parameter variable is enumerated or not.
     :param values_input: the parameter's value list.
     :return: True if the parameter is enumerated type. Otherwise, return False.
     """
     length = len(values_input)
-    all_list = xrange(1, length + 1)
+    all_list = range(1, length + 1)
 
     diff_list = []
     values_set = set()
     count = 0
-    for i in xrange(length):
+    for i in range(length):
         temp = values_input[i]
         if temp not in values_set:
             values_set.add(temp)

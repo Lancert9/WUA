@@ -51,7 +51,6 @@ def icd_type2(obs_str, exp_pro):
         4. control      -->    (32-47, 58-64, 91-96, 123-126)
         5. unprintable  -->    (0-31, 127)
         6. extension    -->    (128-255)
-
     """
     uppercase_set = set(range(65, 91))
 

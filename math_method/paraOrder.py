@@ -2,14 +2,13 @@
     Recording the url's all fixed parameter order.
 """
 import networkx as nx
-import matplotlib.pyplot as plt
 
 __author__ = 'j-lijiawei'
 
 
 def cal_para_order(para_list):
     """
-    To record the url's all fixed parameter order.
+    To record the parameter variable's all fixed order.
     :param para_list: the url's kinds of url's.
     :return: list -> all fixed parameter order.
     """
