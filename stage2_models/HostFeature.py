@@ -19,7 +19,7 @@ class HostFeature:
         # {path: {variable: {specialSymbol: prop}}}
         self.__value_specialSymbol_prop = dict()
 
-        # {path: {variable: boolean}}
+        # {path: {variable: set(value_code) or false}}
         self.__variable_enumeration = dict()
 
         # {path: set(frozenset([v1, v2, v3]), frozenset([v3, v4]), ...)}
@@ -177,8 +177,8 @@ class HostFeature:
     def __value_encode(value_list):
         """
         combine the successive numerical sequence.
-        :param value_list:
-        :return:
+        :param value_list: [value]
+        :return: [value_code]
         """
         value_code_list = []
         for value in value_list:
@@ -201,7 +201,7 @@ class HostFeature:
         To judge the parameter variable is enumerated or not.
 
         :param value_code_list: [value_code]
-        :return: True if the variable is enumerated type. Otherwise, return False.
+        :return: set(value_code) if the variable is enumerated type. Otherwise, return False.
         """
         length = len(value_code_list)
         if length > 1:
@@ -221,7 +221,7 @@ class HostFeature:
             f_g_df = DataFrame({'f_function': f_function, 'g_function': g_function})
             f_g_cor = f_g_df['f_function'].corr(f_g_df['g_function'])
 
-            return True if f_g_cor < 0 else False
+            return value_set if f_g_cor < 0 else False
         else:
             return False
 
@@ -390,7 +390,7 @@ if __name__ == '__main__':
     from RecordBox import RecordBox
     from FlowRecord import FlowRecord
     test_record_box = RecordBox()
-    test_feature_model = FeatureModel()
+    test_feature_model = HostFeature()
     with open('E:\\Lancer\\360WUA\\WUA_data_container\\Flow\\Demo\\flow_20s', 'rb') as infile:
         for line in infile:
             line = line.strip(' \n').split('\t')

@@ -29,12 +29,21 @@ class FlowRecord:
         self.__refer = content_list[_refer]
         self.__data = content_list[_data]
 
-        # Decoding and recording path and parameter segment
-        self.__path, self.__para = self.__set_url_code(self.__url)
+        # Decoding and recording path and parameter segment. Meanwhile, generate the dict -> {variable: value}.
+        self.__path, self.__para, self.__variable_value_dict = self.__set_url_code(self.__url)
+
+        # Feature attribute
+        self.__path_prop = None
+        self.__specialSymbol_prop = None
+        self.__enumeration = None
+        self.__variable_composition = None
+        self.__variable_order = None
+        self.__value_length_prop = None
+        self.__value_distribution1 = None
+        self.__value_distribution2 = None
 
         # It map the private attribute string to it's value
         self.__attribute_map = {}
-        self.__generate_attribute_map()
 
     @staticmethod
     def __set_url_code(url):
@@ -76,7 +85,15 @@ class FlowRecord:
             para = para_decode
         para_code = para
 
-        return path_code, para_code
+        # generate the dict -> {variable: value}
+        variable_value_dict = dict()
+        if para != '':
+            para_seg = para.split('&')
+            for seg in para_seg:
+                variable, value = seg.split('=', 1)
+                variable_value_dict[variable] = value
+
+        return path_code, para_code, variable_value_dict
 
     def __eq__(self, other):
         """
@@ -95,10 +112,15 @@ class FlowRecord:
         return hash(self.__path)
 
     def __setitem__(self, key, value):
-        raise LookupError("It is not allow to set the attribute.")
+        valid_key = ['path_prop', 'specialSymbol_prop', 'enumeration', 'variable_composition',
+                     'variable_order', 'value_length_prop', 'value_distribution1', 'value_distribution2']
+        if key in valid_key:
+            self.__attribute_map[key] = value
+        else:
+            raise KeyError("%s is not a valid key." % key)
 
     def __getitem__(self, item):
-        assert item in self.__attribute_map, "It is a bad attribute: %s" % item
+        self.__generate_attribute_map()
         return self.__attribute_map[item]
 
     def __generate_attribute_map(self):
@@ -111,5 +133,16 @@ class FlowRecord:
         self.__attribute_map["ua"] = self.__ua
         self.__attribute_map["refer"] = self.__refer
         self.__attribute_map["data"] = self.__data
+
         self.__attribute_map["path"] = self.__path
         self.__attribute_map["para"] = self.__para
+        self.__attribute_map["variable_value_dict"] = self.__variable_value_dict
+
+        self.__attribute_map['path_prop'] = self.__path_prop
+        self.__attribute_map['specialSymbol_prop'] = self.__specialSymbol_prop
+        self.__attribute_map['enumeration'] = self.__enumeration
+        self.__attribute_map['variable_composition'] = self.__variable_composition
+        self.__attribute_map['variable_order'] = self.__variable_order
+        self.__attribute_map['value_length_prop'] = self.__value_length_prop
+        self.__attribute_map['value_distribution1'] = self.__value_distribution1
+        self.__attribute_map['value_distribution2'] = self.__value_distribution2
