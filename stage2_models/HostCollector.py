@@ -34,6 +34,9 @@ class HostCollector:
     def __iter__(self):
         return IterableCollector(self.__hosts)
 
+    def __len__(self):
+        return len(self.__hosts)
+
 
 class IterableCollector:
     def __init__(self, host_dict):

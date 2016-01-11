@@ -1,8 +1,9 @@
 """
     It is the main function to learn the HostModel.
 """
-from stage2_models.FlowRecord import FlowRecord
-from stage2_models.HostCollector import HostCollector
+
+from FlowRecord import FlowRecord
+from HostCollector import HostCollector
 import datetime
 import pickle
 
@@ -26,13 +27,15 @@ def model_learn():
                 current_record = FlowRecord(record)
                 current_model = host_collector.get_host_model(current_record['host'])
                 current_model.add_record(current_record)
-            record_num += 1
-            if record_num % 1000 == 0:
-                print 'Record completed: %s' % record_num
+                record_num += 1
+                if record_num % 1000 == 0:
+                    print 'Record completed: %s' % record_num
+    print 'Study Records: %d' % record_num
+    print 'Study Host Models: %d' % len(host_collector)
+    for host_model in host_collector:
+        host_model.generate_feature()
     end_time = datetime.datetime.now()
-
     print 'Model Learn Consuming: %s' % (end_time - start_time)
-    print 'Study Records: %s' % record_num
 
     for host_model in host_collector:
         print host_model
@@ -44,12 +47,3 @@ def model_learn():
 
 if __name__ == '__main__':
     model_learn()
-
-
-
-
-
-
-
-
-

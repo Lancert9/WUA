@@ -31,12 +31,14 @@ class FeatureModel:
         # {path: {variable: {'mean': m, 'variance': v}}}
         self.__value_length_distribution = dict()
 
+        # {path: {variable: (P0, P1, P2, P3, P4, P5)}}
         self.__value_distribution1 = dict()
+
+        # {path: {variable: (P0, P1, P2, P3, P4, P5)}}
         self.__value_distribution2 = dict()
 
         # The map of the Host Model's all features.
         self.__feature_map = dict()
-        self.__generate_all_feature_map()
 
     def generate_all_features(self, a_record_box):
         a_path_list = a_record_box["path_list"]
@@ -170,22 +172,6 @@ class FeatureModel:
             self.__value_distribution2[path] = {}
             for variable, value_list in variable_dict.items():
                 self.__value_distribution2[path][variable] = self.__cal_value_distribution2(value_list)
-
-    def __setitem__(self, key, value):
-        raise LookupError("It is not allow to set the attribute.")
-
-    def __getitem__(self, item):
-        return self.__feature_map[item]
-
-    def __generate_all_feature_map(self):
-        self.__feature_map['path_element_count'] = self.__path_element_count
-        self.__feature_map['value_specialSymbol_prop'] = self.__value_specialSymbol_prop
-        self.__feature_map['variable_enumeration'] = self.__variable_enumeration
-        self.__feature_map['variable_composition_pool'] = self.__variable_composition_pool
-        self.__feature_map['variable_order_rule'] = self.__variable_order_rule
-        self.__feature_map['value_length_distribution'] = self.__value_length_distribution
-        self.__feature_map['value_distribution1'] = self.__value_distribution1
-        self.__feature_map['value_distribution2'] = self.__value_distribution2
 
     @staticmethod
     def __value_encode(value_list):
@@ -383,13 +369,29 @@ class FeatureModel:
 
         return tuple(result_prop_list)
 
+    def __setitem__(self, key, value):
+        raise LookupError("It is not allow to set the attribute.")
+
+    def __getitem__(self, item):
+        self.__generate_all_feature_map()
+        return self.__feature_map[item]
+
+    def __generate_all_feature_map(self):
+        self.__feature_map['path_element_count'] = self.__path_element_count
+        self.__feature_map['value_specialSymbol_prop'] = self.__value_specialSymbol_prop
+        self.__feature_map['variable_enumeration'] = self.__variable_enumeration
+        self.__feature_map['variable_composition_pool'] = self.__variable_composition_pool
+        self.__feature_map['variable_order_rule'] = self.__variable_order_rule
+        self.__feature_map['value_length_distribution'] = self.__value_length_distribution
+        self.__feature_map['value_distribution1'] = self.__value_distribution1
+        self.__feature_map['value_distribution2'] = self.__value_distribution2
+
 if __name__ == '__main__':
     from RecordBox import RecordBox
-    from stage2_models.FlowRecord import FlowRecord
+    from FlowRecord import FlowRecord
     test_record_box = RecordBox()
     test_feature_model = FeatureModel()
     with open('E:\\Lancer\\360WUA\\WUA_data_container\\Flow\\Demo\\flow_20s', 'rb') as infile:
-
         for line in infile:
             line = line.strip(' \n').split('\t')
             if len(line) == 13 and line[_host] != '':

@@ -36,8 +36,7 @@ class RecordBox:
 
     def add_record(self, a_record):
         self.__all_records.append(a_record)
-        a_sip = a_record["sip"]
-        self.__sip_box.add(a_sip)
+        self.__sip_box.add(a_record["sip"])
 
     def active(self):
         """
@@ -105,16 +104,11 @@ class RecordBox:
                     self.__variable_order[path] = set()
                 self.__variable_order[path].add(tuple(variable_list))
 
-        # generate the attribute map
-        self.__generate_attribute_map()
-
-    def clear(self):
-        pass
-
     def __setitem__(self, key, value):
         raise LookupError("It is not allow to set the attribute.")
 
     def __getitem__(self, item):
+        self.__generate_attribute_map()
         return self.__attribute_map[item]
 
     def __generate_attribute_map(self):
@@ -127,7 +121,7 @@ class RecordBox:
         self.__attribute_map["variable_order"] = self.__variable_order
 
 if __name__ == '__main__':
-    from stage2_models.FlowRecord import FlowRecord
+    from FlowRecord import FlowRecord
     test_record_box = RecordBox()
     with open('E:\\Lancer\\360WUA\\WUA_data_container\\Flow\\Demo\\flow_20s', 'rb') as infile:
 
