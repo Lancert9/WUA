@@ -4,7 +4,7 @@
         It contains the host's RecordBox and all features.
 """
 from RecordBox import RecordBox
-from FeatureModel import FeatureModel
+from HostFeature import HostFeature
 
 __author__ = 'j-lijiawei'
 
@@ -17,7 +17,7 @@ class HostModel:
         """
         self.__host = host
         self.__record_box = RecordBox()
-        self.__feature_model = FeatureModel()
+        self.__host_feature = HostFeature()
 
         # It map the private attribute string to it's value
         self.__attribute_map = {}
@@ -30,13 +30,13 @@ class HostModel:
 
     def generate_feature(self):
         self.__record_box.active()
-        self.__feature_model.generate_all_features(self.__record_box)
+        self.__host_feature.generate_all_features(self.__record_box)
 
     def __generate_attribute_map(self):
         self.__attribute_map['host'] = self.__host
         self.__attribute_map['record_num'] = self.__record_box["record_num"]
         self.__attribute_map['sip_num'] = self.__record_box['sip_num']
-        self.__attribute_map['model_feature'] = self.__feature_model
+        self.__attribute_map['host_feature'] = self.__host_feature
 
     def __str__(self):
         information = "Host Model:\n" \

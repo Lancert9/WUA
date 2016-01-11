@@ -43,7 +43,7 @@ def model_learn():
     with open(host_stored_address, 'wb') as store_host_collector:
         pickle.dump(host_collector, store_host_collector)
 
-    print 'Whole Module Finished.'
+    print 'LEARN Module Finished.'
 
 if __name__ == '__main__':
     model_learn()

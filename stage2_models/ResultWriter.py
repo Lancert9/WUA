@@ -6,7 +6,7 @@
 __author__ = 'j-lijiawei'
 
 
-class AnomalyWriter:
+class ResultWriter:
     def __init__(self, outfile_address):
         """
         :param outfile_address: str

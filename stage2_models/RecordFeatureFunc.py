@@ -1,9 +1,14 @@
 """
-    Calculating the probability result of url's path or parameter part.
+    Calculating the flow record's feature.
 """
 
 from math import log
+
 __author__ = 'j-lijiawei'
+
+def calculate(flow_record, host_model):
+    
+
 
 
 def calPathProp_modi(records_dict, path_dict, path2_dict):

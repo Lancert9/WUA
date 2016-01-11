@@ -11,7 +11,7 @@ __author__ = 'j-lijiawei'
 (_access_time, _sip, _sport, _dip, _dport, _method, _uri, _host, _origin, _cookie, _uagent, _refer, _data) = range(13)
 
 
-class FeatureModel:
+class HostFeature:
     def __init__(self):
         # Path Probability Status = ({'element_i': amount}, {'element_i, element_i+1': amount})
         self.__path_element_count = (dict(), dict())
