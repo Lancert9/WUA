@@ -50,15 +50,16 @@ class RecordBox:
         for record in self.__all_records:
             # add path segment
             # add it to path_list
-            path = record["path"]
+            path = record['path']
             self.__path_list.append(path)
 
             # add para segment
-            variable_value_dict = record["variable_value_dict"]
-            # if url doesn't have a parameter segment, its variable_value_dict is a empty dict.
-            if variable_value_dict:
-                variable_list = list()
-                for variable, value in variable_value_dict.items():
+            para = record['para']
+            variable_list = list()
+            if para:
+                para_seg = para.split('&')
+                for seg in para_seg:
+                    variable, value = seg.split('=', 1)
                     variable_list.append(variable)
                     # add it to variable_value
                     if path in self.__variable_value:

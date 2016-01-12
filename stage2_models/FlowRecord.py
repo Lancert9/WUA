@@ -87,7 +87,7 @@ class FlowRecord:
 
         # generate the dict -> {variable: value}
         variable_value_dict = dict()
-        if para != '':
+        if para:
             para_seg = para.split('&')
             for seg in para_seg:
                 variable, value = seg.split('=', 1)
