@@ -45,6 +45,9 @@ class IterableCollector:
         self.__index = 0
 
     def next(self):
-        key = self.__key_list[self.__index]
-        self.__index += 1
-        return self.__host_dict[key]
+        if self.__index < len(self.__key_list):
+            key = self.__key_list[self.__index]
+            self.__index += 1
+            return self.__host_dict[key]
+        else:
+            raise StopIteration

@@ -32,6 +32,54 @@ def calculate(flow_record, host_model):
     flow_record['value_distribution2'] = _cal_value_distribution2(flow_record, host_value_distribution2)
 
 
+def calculate_path_prop(flow_record, host_model):
+    host_feature = host_model['host_feature']
+    host_path_element_count = host_feature['path_element_count']
+    flow_record['path_prop'] = _cal_path_prop(flow_record, host_path_element_count)
+
+
+def calculate_special_symbol_prop(flow_record, host_model):
+    host_feature = host_model['host_feature']
+    host_value_special_symbol_prop = host_feature['value_specialSymbol_prop']
+    flow_record['specialSymbol_prop'] = _cal_special_symbol_prop(flow_record, host_value_special_symbol_prop)
+
+
+def calculate_enumeration(flow_record, host_model):
+    host_feature = host_model['host_feature']
+    host_variable_enumeration = host_feature['variable_enumeration']
+    flow_record['enumeration'] = _cal_enumeration(flow_record, host_variable_enumeration)
+
+
+def calculate_variable_composition(flow_record, host_model):
+    host_feature = host_model['host_feature']
+    host_variable_composition_pool = host_feature['variable_composition_pool']
+    flow_record['variable_composition'] = _cal_variable_composition(flow_record, host_variable_composition_pool)
+
+
+def calculate_variable_order(flow_record, host_model):
+    host_feature = host_model['host_feature']
+    host_variable_order_rule = host_feature['variable_order_rule']
+    flow_record['variable_order'] = _cal_variable_order(flow_record, host_variable_order_rule)
+
+
+def calculate_value_length_prop(flow_record, host_model):
+    host_feature = host_model['host_feature']
+    host_value_length_distribution = host_feature['value_length_distribution']
+    flow_record['value_length_prop'] = _cal_value_length_prop(flow_record, host_value_length_distribution)
+
+
+def calculate_value_distribution1(flow_record, host_model):
+    host_feature = host_model['host_feature']
+    host_value_distribution1 = host_feature['value_distribution1']
+    flow_record['value_distribution1'] = _cal_value_distribution1(flow_record, host_value_distribution1)
+
+
+def calculate_value_distribution2(flow_record, host_model):
+    host_feature = host_model['host_feature']
+    host_value_distribution2 = host_feature['value_distribution2']
+    flow_record['value_distribution2'] = _cal_value_distribution2(flow_record, host_value_distribution2)
+
+
 def _cal_path_prop(flow_record, host_path_element_count):
     """
     1. P(A/B/C/D) = P(A) * P(B|A) * P(C|AB) * P(D|ABC)
@@ -336,3 +384,38 @@ def __cal_value_observation2(value):
                 break
 
     return tuple(icd_table)
+
+
+if __name__ == '__main__':
+    import pickle
+    from FlowRecord import FlowRecord
+    import __WriteHostFeature as Whf
+    (_access_time, _sip, _sport, _dip, _dport, _method, _uri, _host, _origin, _cookie, _uagent, _refer, _data) \
+        = range(13)
+
+    flow_address = 'E:\\WUA_data_container\\data_container\\Skyeye_Sensor\\FLow\\' \
+                   'flow_mall.360.com_20151231_31\\Demo\\flow_20s'
+    host_stored_address = 'E:\\WUA_data_container\\data_container\\Complete_Model\\' \
+                          'flow_mall.360.com_20151231_31\\Demo\\Host_Collector'
+    host_feature_stores_address = 'E:\\WUA_data_container\\data_container\\Skyeye_Sensor\\FLow\\' \
+                                  'flow_mall.360.com_20151231_31\\Demo\\take_a_look_host_feature'
+    flow_feature_stored_address = 'E:\\WUA_data_container\\data_container\\Skyeye_Sensor\\FLow\\' \
+                                  'flow_mall.360.com_20151231_31\\Demo\\take_a_look_record_feature'
+
+    with open(host_stored_address, 'rb') as host_collector_file:
+        host_collector = pickle.load(host_collector_file)
+
+    # for host in host_collector:
+    #     test_host_feature = host['host_feature']
+    #     Whf.write(test_host_feature, host_feature_stores_address)
+
+    with open(flow_address, 'rb') as infile, open(flow_feature_stored_address, 'wb') as outfile:
+        for line in infile:
+            record = line.strip(' \n').split('\t')
+            if len(record) == 13 and record[_host] != '':
+                current_record = FlowRecord(record)
+                current_model = host_collector.get_host_model(current_record['host'])
+
+                calculate_path_prop(current_record, current_model)
+                outfile.write('%s\n' % current_record['url'])
+                outfile.write('\t%s\n' % current_record['path_prop'])

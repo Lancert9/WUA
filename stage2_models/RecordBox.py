@@ -4,6 +4,8 @@
         It also contains some metrics of records.
 
 """
+from __future__ import division
+
 __author__ = 'j-lijiawei'
 
 (_access_time, _sip, _sport, _dip, _dport, _method, _uri, _host, _origin, _cookie, _uagent, _refer, _data) = range(13)
@@ -16,23 +18,23 @@ class RecordBox:
         self.__all_records = list()
         self.__sip_box = set()
 
+        # It map the private attribute string to it's value
+        self._m = dict()
+
         # [path]
-        self.__path_list = list()
+        self._m["path_list"] = list()
 
         # {path: {variable: {specialSymbol: count}}}
-        self.__variable_specialSymbol = dict()
+        self._m["variable_specialSymbol"] = dict()
 
         # {path: {variable: [value]}}
-        self.__variable_value = dict()
+        self._m["variable_value"] = dict()
 
         # {path: set(set(v1, v2, v3), set(v1, v4), ...)}
-        self.__variable_composition = dict()
+        self._m["variable_composition"] = dict()
 
         # {path: set((v1, v2, v3), (v1, v4), ...)}
-        self.__variable_order = dict()
-
-        # It map the private attribute string to it's value
-        self.__attribute_map = {}
+        self._m["variable_order"] = dict()
 
     def add_record(self, a_record):
         self.__all_records.append(a_record)
@@ -51,7 +53,7 @@ class RecordBox:
             # add path segment
             # add it to path_list
             path = record['path']
-            self.__path_list.append(path)
+            self._m["path_list"].append(path)
 
             # add para segment
             para = record['para']
@@ -62,62 +64,48 @@ class RecordBox:
                     variable, value = seg.split('=', 1)
                     variable_list.append(variable)
                     # add it to variable_value
-                    if path in self.__variable_value:
-                        if variable in self.__variable_value[path]:
-                                self.__variable_value[path][variable].append(value)
+                    if path in self._m["variable_value"]:
+                        if variable in self._m["variable_value"][path]:
+                                self._m["variable_value"][path][variable].append(value)
                         else:
-                            self.__variable_value[path][variable] = [value]
+                            self._m["variable_value"][path][variable] = [value]
                     else:
-                        self.__variable_value[path] = {variable: [value]}
+                        self._m["variable_value"][path] = {variable: [value]}
 
                     # add it to variable_specialSymbol
-                    if path in self.__variable_specialSymbol:
-                        if variable in self.__variable_specialSymbol[path]:
-                            for char in value:
-                                if char in special_symbols_list:
-                                    self.__variable_specialSymbol[path][variable][char] = \
-                                        self.__variable_specialSymbol[path][variable].setdefault(char, 0) + 1
-                                    self.__variable_specialSymbol[path][variable]['SUM'] += 1
-                        else:
-                            self.__variable_specialSymbol[path][variable] = {}
-                            self.__variable_specialSymbol[path][variable]['SUM'] = 0.0
-                            for char in value:
-                                if char in special_symbols_list:
-                                    self.__variable_specialSymbol[path][variable][char] = \
-                                        self.__variable_specialSymbol[path][variable].setdefault(char, 0) + 1
+                    if path not in self._m["variable_specialSymbol"]:
+                        self._m["variable_specialSymbol"][path] = {variable: {}}
+                        self._m["variable_specialSymbol"][path][variable]['SUM'] = 0
                     else:
-                        self.__variable_specialSymbol[path] = {variable: {}}
-                        self.__variable_specialSymbol[path][variable]['SUM'] = 0.0
-                        for char in value:
-                                if char in special_symbols_list:
-                                    self.__variable_specialSymbol[path][variable][char] = \
-                                        self.__variable_specialSymbol[path][variable].setdefault(char, 0) + 1
+                        if variable not in self._m["variable_specialSymbol"][path]:
+                            self._m["variable_specialSymbol"][path][variable] = {}
+                            self._m["variable_specialSymbol"][path][variable]['SUM'] = 0
+                    for char in value:
+                        if char in special_symbols_list:
+                            self._m["variable_specialSymbol"][path][variable][char] = \
+                                self._m["variable_specialSymbol"][path][variable].setdefault(char, 0) + 1
+                            self._m["variable_specialSymbol"][path][variable]['SUM'] += 1
 
                 # add it to variable_composition
-                if path not in self.__variable_composition:
-                    self.__variable_composition[path] = set()
-                self.__variable_composition[path].add(frozenset(variable_list))
+                if path not in self._m["variable_composition"]:
+                    self._m["variable_composition"][path] = set()
+                self._m["variable_composition"][path].add(frozenset(variable_list))
 
                 # add it to variable_order
-                if path not in self.__variable_order:
-                    self.__variable_order[path] = set()
-                self.__variable_order[path].add(tuple(variable_list))
+                if path not in self._m["variable_order"]:
+                    self._m["variable_order"][path] = set()
+                self._m["variable_order"][path].add(tuple(variable_list))
 
     def __setitem__(self, key, value):
         raise LookupError("It is not allow to set the attribute.")
 
-    def __getitem__(self, item):
-        self.__generate_attribute_map()
-        return self.__attribute_map[item]
-
-    def __generate_attribute_map(self):
-        self.__attribute_map["record_num"] = len(self.__all_records)
-        self.__attribute_map["sip_num"] = len(self.__sip_box)
-        self.__attribute_map["path_list"] = self.__path_list
-        self.__attribute_map["variable_specialSymbol"] = self.__variable_specialSymbol
-        self.__attribute_map["variable_value"] = self.__variable_value
-        self.__attribute_map["variable_composition"] = self.__variable_composition
-        self.__attribute_map["variable_order"] = self.__variable_order
+    def __getitem__(self, key):
+        if key == 'record_num':
+            return len(self.__all_records)
+        elif key == 'sip_num':
+            return len(self.__sip_box)
+        else:
+            return self._m[key]
 
 if __name__ == '__main__':
     from FlowRecord import FlowRecord

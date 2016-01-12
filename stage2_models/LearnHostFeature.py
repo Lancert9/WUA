@@ -11,8 +11,10 @@ __author__ = 'Lancer'
 
 (_access_time, _sip, _sport, _dip, _dport, _method, _uri, _host, _origin, _cookie, _uagent, _refer, _data) = range(13)
 
-flow_address = ''
-host_stored_address = ''
+flow_address = 'E:\\WUA_data_container\\data_container\\Skyeye_Sensor\\FLow\\' \
+               'flow_mall.360.com_20151231_31\\Demo\\flow_20s'
+host_stored_address = 'E:\\WUA_data_container\\data_container\\Complete_Model\\' \
+                      'flow_mall.360.com_20151231_31\\Demo\\Host_Collector'
 
 
 def model_learn():

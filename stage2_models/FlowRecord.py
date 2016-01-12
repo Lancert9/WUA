@@ -15,35 +15,25 @@ class FlowRecord:
         :param content_list: list[13] -- original flow record's 13 fields.
 
         """
+        # It map the private attribute string to it's value
+        self.__attribute_map = {}
 
         """
             Set useful field
         """
-        self.__content = '\t'.join(content_list)
-        self.__timeStamp = content_list[_access_time]
-        self.__sip = content_list[_sip]
-        self.__method = content_list[_method]
-        self.__url = content_list[_uri]
-        self.__host = content_list[_host]
-        self.__ua = content_list[_uagent]
-        self.__refer = content_list[_refer]
-        self.__data = content_list[_data]
+        self.__attribute_map["content"] = '\t'.join(content_list)
+        self.__attribute_map["timeStamp"] = content_list[_access_time]
+        self.__attribute_map["sip"] = content_list[_sip]
+        self.__attribute_map["method"] = content_list[_method]
+        self.__attribute_map["url"] = content_list[_uri]
+        self.__attribute_map["host"] = content_list[_host]
+        self.__attribute_map["ua"] = content_list[_uagent]
+        self.__attribute_map["refer"] = content_list[_refer]
+        self.__attribute_map["data"] = content_list[_data]
 
         # Decoding and recording path and parameter segment. Meanwhile, generate the dict -> {variable: value}.
-        self.__path, self.__para, self.__variable_value_dict = self.__set_url_code(self.__url)
-
-        # Feature attribute
-        self.__path_prop = None
-        self.__specialSymbol_prop = None
-        self.__enumeration = None
-        self.__variable_composition = None
-        self.__variable_order = None
-        self.__value_length_prop = None
-        self.__value_distribution1 = None
-        self.__value_distribution2 = None
-
-        # It map the private attribute string to it's value
-        self.__attribute_map = {}
+        self.__attribute_map["path"], self.__attribute_map["para"], self.__attribute_map["variable_value_dict"] = \
+            self.__set_url_code(self.__attribute_map["url"])
 
     @staticmethod
     def __set_url_code(url):
@@ -100,7 +90,7 @@ class FlowRecord:
         :param other: UrlRecord -> the url to be compared
         :return: boolean -> True(equal) or False(not equal)
         """
-        if self.__path == other.get_path() and self.__para == other.get_para():
+        if self.__attribute_map["path"] == other.get_path() and self.__attribute_map["para"] == other.get_para():
             return True
         else:
             return False
@@ -109,7 +99,7 @@ class FlowRecord:
         """
         :return: int -- the hash value of this UrlRecord
         """
-        return hash(self.__path)
+        return hash(self.__attribute_map["path"])
 
     def __setitem__(self, key, value):
         valid_key = ['path_prop', 'specialSymbol_prop', 'enumeration', 'variable_composition',
@@ -120,29 +110,4 @@ class FlowRecord:
             raise KeyError("%s is not a valid key." % key)
 
     def __getitem__(self, item):
-        self.__generate_attribute_map()
         return self.__attribute_map[item]
-
-    def __generate_attribute_map(self):
-        self.__attribute_map["content"] = self.__content
-        self.__attribute_map["timeStamp"] = self.__timeStamp
-        self.__attribute_map["sip"] = self.__sip
-        self.__attribute_map["method"] = self.__method
-        self.__attribute_map["url"] = self.__url
-        self.__attribute_map["host"] = self.__host
-        self.__attribute_map["ua"] = self.__ua
-        self.__attribute_map["refer"] = self.__refer
-        self.__attribute_map["data"] = self.__data
-
-        self.__attribute_map["path"] = self.__path
-        self.__attribute_map["para"] = self.__para
-        self.__attribute_map["variable_value_dict"] = self.__variable_value_dict
-
-        self.__attribute_map['path_prop'] = self.__path_prop
-        self.__attribute_map['specialSymbol_prop'] = self.__specialSymbol_prop
-        self.__attribute_map['enumeration'] = self.__enumeration
-        self.__attribute_map['variable_composition'] = self.__variable_composition
-        self.__attribute_map['variable_order'] = self.__variable_order
-        self.__attribute_map['value_length_prop'] = self.__value_length_prop
-        self.__attribute_map['value_distribution1'] = self.__value_distribution1
-        self.__attribute_map['value_distribution2'] = self.__value_distribution2
