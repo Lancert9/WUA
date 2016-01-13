@@ -16,24 +16,24 @@ class FlowRecord:
 
         """
         # It map the private attribute string to it's value
-        self.__attribute_map = {}
+        self._m = {}
 
         """
             Set useful field
         """
-        self.__attribute_map["content"] = '\t'.join(content_list)
-        self.__attribute_map["timeStamp"] = content_list[_access_time]
-        self.__attribute_map["sip"] = content_list[_sip]
-        self.__attribute_map["method"] = content_list[_method]
-        self.__attribute_map["url"] = content_list[_uri]
-        self.__attribute_map["host"] = content_list[_host]
-        self.__attribute_map["ua"] = content_list[_uagent]
-        self.__attribute_map["refer"] = content_list[_refer]
-        self.__attribute_map["data"] = content_list[_data]
+        self._m["content"] = '\t'.join(content_list)
+        self._m["timeStamp"] = content_list[_access_time]
+        self._m["sip"] = content_list[_sip]
+        self._m["method"] = content_list[_method]
+        self._m["url"] = content_list[_uri]
+        self._m["host"] = content_list[_host]
+        self._m["ua"] = content_list[_uagent]
+        self._m["refer"] = content_list[_refer]
+        self._m["data"] = content_list[_data]
 
         # Decoding and recording path and parameter segment. Meanwhile, generate the dict -> {variable: value}.
-        self.__attribute_map["path"], self.__attribute_map["para"], self.__attribute_map["variable_value_dict"] = \
-            self.__set_url_code(self.__attribute_map["url"])
+        self._m["path"], self._m["para"], self._m["variable_value_dict"] = \
+            self.__set_url_code(self._m["url"])
 
     @staticmethod
     def __set_url_code(url):
@@ -77,10 +77,15 @@ class FlowRecord:
 
         # generate the dict -> {variable: value}
         variable_value_dict = dict()
-        if para:
-            para_seg = para.split('&')
+        if para_code:
+            para_seg = para_code.split('&')
             for seg in para_seg:
-                variable, value = seg.split('=', 1)
+                variable_value = seg.split('=', 1)
+                if len(variable_value) == 1:
+                    variable = 'Default_Variable'
+                    value = variable_value[0]
+                else:
+                    variable, value = variable_value
                 variable_value_dict[variable] = value
 
         return path_code, para_code, variable_value_dict
@@ -90,7 +95,7 @@ class FlowRecord:
         :param other: UrlRecord -> the url to be compared
         :return: boolean -> True(equal) or False(not equal)
         """
-        if self.__attribute_map["path"] == other.get_path() and self.__attribute_map["para"] == other.get_para():
+        if self._m["path"] == other.get_path() and self._m["para"] == other.get_para():
             return True
         else:
             return False
@@ -99,15 +104,15 @@ class FlowRecord:
         """
         :return: int -- the hash value of this UrlRecord
         """
-        return hash(self.__attribute_map["path"])
+        return hash(self._m["content"])
 
     def __setitem__(self, key, value):
         valid_key = ['path_prop', 'specialSymbol_prop', 'enumeration', 'variable_composition',
                      'variable_order', 'value_length_prop', 'value_distribution1', 'value_distribution2']
         if key in valid_key:
-            self.__attribute_map[key] = value
+            self._m[key] = value
         else:
             raise KeyError("%s is not a valid key." % key)
 
     def __getitem__(self, item):
-        return self.__attribute_map[item]
+        return self._m[item]

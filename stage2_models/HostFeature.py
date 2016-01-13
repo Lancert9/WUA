@@ -14,31 +14,31 @@ __author__ = 'j-lijiawei'
 class HostFeature:
     def __init__(self):
         # The map of the Host Model's all features.
-        self.__feature_map = dict()
+        self._m = dict()
 
         # Path Probability Status = ({'element_i': amount}, {'element_i, element_i+1': amount})
-        self.__feature_map['path_element_count'] = (dict(), dict())
+        self._m['path_element_count'] = (dict(), dict())
 
         # {path: {variable: {specialSymbol: prop}}}
-        self.__feature_map['value_specialSymbol_prop'] = dict()
+        self._m['value_specialSymbol_prop'] = dict()
 
         # {path: {variable: set(value_code) or false}}
-        self.__feature_map['variable_enumeration'] = dict()
+        self._m['variable_enumeration'] = dict()
 
         # {path: set(frozenset([v1, v2, v3]), frozenset([v3, v4]), ...)}
-        self.__feature_map['variable_composition_pool'] = dict()
+        self._m['variable_composition_pool'] = dict()
 
         # {path: set((v1, v2), (v1, v3), ...)}
-        self.__feature_map['variable_order_rule'] = dict()
+        self._m['variable_order_rule'] = dict()
 
         # {path: {variable: {'mean': m, 'variance': v}}}
-        self.__feature_map['value_length_distribution'] = dict()
+        self._m['value_length_distribution'] = dict()
 
         # {path: {variable: (P0, P1, P2, P3, P4, P5)}}
-        self.__feature_map['value_distribution1'] = dict()
+        self._m['value_distribution1'] = dict()
 
         # {path: {variable: (P0, P1, P2, P3, P4, P5)}}
-        self.__feature_map['value_distribution2'] = dict()
+        self._m['value_distribution2'] = dict()
 
     def generate_all_features(self, a_record_box):
         a_path_list = a_record_box["path_list"]
@@ -64,8 +64,8 @@ class HostFeature:
         :param path_list: [path]
         :return: ({'element_i': amount}, {'element_i, element_i+1': amount})
         """
-        single_element_count = self.__feature_map['path_element_count'][0]
-        double_element_count = self.__feature_map['path_element_count'][1]
+        single_element_count = self._m['path_element_count'][0]
+        double_element_count = self._m['path_element_count'][1]
         for path in path_list:
             element_list = path.split('/')
             for i, element in enumerate(element_list):
@@ -84,15 +84,15 @@ class HostFeature:
         :return: {path: {variable: {specialSymbol: prop}}}
         """
         for path, variable_dict in variable_special_symbol.items():
-            self.__feature_map['value_specialSymbol_prop'][path] = {}
+            self._m['value_specialSymbol_prop'][path] = {}
             for variable, specialSymbol_dict in variable_dict.items():
-                self.__feature_map['value_specialSymbol_prop'][path][variable] = {}
+                self._m['value_specialSymbol_prop'][path][variable] = {}
                 sum_number = specialSymbol_dict['SUM']
                 if sum_number != 0:
                     for special, count in specialSymbol_dict.items():
                         if special != 'SUM':
                             prop = count / sum_number
-                            self.__feature_map['value_specialSymbol_prop'][path][variable][special] = prop
+                            self._m['value_specialSymbol_prop'][path][variable][special] = prop
 
     def generate_variable_enumeration(self, variable_value):
         """
@@ -102,12 +102,12 @@ class HostFeature:
         :return: {path: {variable: boolean}}
         """
         for path, variable_dict in variable_value.items():
-            self.__feature_map['variable_enumeration'][path] = {}
+            self._m['variable_enumeration'][path] = {}
             for variable, value_list in variable_dict.items():
                 value_code_list = self.__value_encode(value_list)
                 # flag = true -> variable is enumeration. Otherwise, is not.
                 flag = self.__is_enumerated(value_code_list)
-                self.__feature_map['variable_enumeration'][path][variable] = flag
+                self._m['variable_enumeration'][path][variable] = flag
 
     def generate_variable_composition_pool(self, variable_composition):
         """
@@ -116,7 +116,7 @@ class HostFeature:
         :param variable_composition: {path: set(frozenset([v1, v2, v3]), frozenset([v3, v4]), ...)}
         :return: {path: set(frozenset([v1, v2, v3]), frozenset([v3, v4]), ...)}
         """
-        self.__feature_map['variable_composition_pool'].update(variable_composition)
+        self._m['variable_composition_pool'].update(variable_composition)
 
     def generate_variable_order_rule(self, variable_order):
         """
@@ -128,7 +128,7 @@ class HostFeature:
                  inside tuple consist of two variable, which specifies the order rule.
         """
         for path, variable_order_set in variable_order.items():
-            self.__feature_map['variable_order_rule'][path] = self.__cal_variable_order_rule(variable_order_set)
+            self._m['variable_order_rule'][path] = self.__cal_variable_order_rule(variable_order_set)
 
     def generate_value_length_distribution(self, variable_value):
         """
@@ -139,14 +139,14 @@ class HostFeature:
         :return: {path: {variable: {'mean': m, 'variance': v}}}
         """
         for path, variable_dict in variable_value.items():
-            self.__feature_map['value_length_distribution'][path] = {}
+            self._m['value_length_distribution'][path] = {}
             for variable, value_list in variable_dict.items():
                 length_list = [len(value) for value in value_list]
                 length_series = Series(length_list)
                 mean = length_series.mean()
                 var = length_series.var()
 
-                self.__feature_map['value_length_distribution'][path][variable] = {'mean': mean, 'variance': var}
+                self._m['value_length_distribution'][path][variable] = {'mean': mean, 'variance': var}
 
     def generate_value_distribution1(self, variable_value):
         """
@@ -157,9 +157,14 @@ class HostFeature:
         :return: {path: {variable: (P0, P1, P2, P3, P4, P5)}}
         """
         for path, variable_dict in variable_value.items():
-            self.__feature_map['value_distribution1'][path] = {}
+            self._m['value_distribution1'][path] = {}
             for variable, value_list in variable_dict.items():
-                self.__feature_map['value_distribution1'][path][variable] = self.__cal_value_distribution1(value_list)
+                try:
+                    self._m['value_distribution1'][path][variable] = self.__cal_value_distribution1(value_list)
+                except Exception, e:
+                    print 'variable: %s' % variable
+                    print 'value_list: %s' % value_list
+                    raise Exception(e)
 
     def generate_value_distribution2(self, variable_value):
         """
@@ -169,9 +174,9 @@ class HostFeature:
         :return: {path: {variable: (P0, P1, P2, P3, P4, P5)}}
         """
         for path, variable_dict in variable_value.items():
-            self.__feature_map['value_distribution2'][path] = {}
+            self._m['value_distribution2'][path] = {}
             for variable, value_list in variable_dict.items():
-                self.__feature_map['value_distribution2'][path][variable] = self.__cal_value_distribution2(value_list)
+                self._m['value_distribution2'][path][variable] = self.__cal_value_distribution2(value_list)
 
     @staticmethod
     def __value_encode(value_list):
@@ -288,7 +293,13 @@ class HostFeature:
         for value in value_list:
             icd_list = [0] * 256
             for char in value:
-                ascll = ord(char)
+                try:
+                    ascll = ord(char)
+                except Exception, e:
+                    print "char: %s" % char
+                    print "value: %s" % value
+                    print "value list: %s" % value_list
+                    raise Exception(e)
                 icd_list[ascll] += 1
             icd_list.sort(reverse=True)
 
@@ -309,6 +320,10 @@ class HostFeature:
             for record in icd_table_list:
                 interval_sum += record[interval]
             result_prop_list.append(interval_sum / number)
+
+        for i in range(6):
+            if result_prop_list[i] == 0:
+                result_prop_list[i] = 0.00001
 
         return tuple(result_prop_list)
 
@@ -367,13 +382,17 @@ class HostFeature:
                 interval_sum += record[interval]
             result_prop_list.append(interval_sum / number)
 
+        for i in range(6):
+            if result_prop_list[i] == 0:
+                result_prop_list[i] = 0.00001
+
         return tuple(result_prop_list)
 
     def __setitem__(self, key, value):
         raise LookupError("It is not allow to set the attribute.")
 
     def __getitem__(self, item):
-        return self.__feature_map[item]
+        return self._m[item]
 
 if __name__ == '__main__':
     from RecordBox import RecordBox

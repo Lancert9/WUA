@@ -89,8 +89,8 @@ def icd_type2(obs_str, exp_pro):
     return icd_table, exp_table
 
 if __name__ == '__main__':
-    test_str = 'abade1234?'
-    exp_p_1 = [0.1, 0.1, 0.15, 0.2, 0.3, 0.15]
+    test_str = '110'
+    exp_p_1 = [0.666667, 0.333333, 0, 0, 0, 0]
     exp_p_2 = [0.1, 0.6, 0.2, 0.1, 0.00001, 0.00001]
 
     test_obs_1, test_exp_1 = icd_type1(test_str, exp_p_1)
@@ -99,8 +99,8 @@ if __name__ == '__main__':
     p_value = chi_squared_test(test_obs_1, test_exp_1)
     print "Test_1 P-value: ", p_value
 
-    test_obs_2, test_exp_2 = icd_type2(test_str, exp_p_2)
-    print "Test_2 observation: ", test_obs_2
-    print "Test_2 exception: ", test_exp_2
-    p_value = chi_squared_test(test_obs_2, test_exp_2)
-    print "Test_2 P-value: ", p_value
+    # test_obs_2, test_exp_2 = icd_type2(test_str, exp_p_2)
+    # print "Test_2 observation: ", test_obs_2
+    # print "Test_2 exception: ", test_exp_2
+    # p_value = chi_squared_test(test_obs_2, test_exp_2)
+    # print "Test_2 P-value: ", p_value

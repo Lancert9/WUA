@@ -23,6 +23,7 @@ class RecordBox:
 
         # [path]
         self._m["path_list"] = list()
+        self._m["path_set"] = set()
 
         # {path: {variable: {specialSymbol: count}}}
         self._m["variable_specialSymbol"] = dict()
@@ -61,7 +62,12 @@ class RecordBox:
             if para:
                 para_seg = para.split('&')
                 for seg in para_seg:
-                    variable, value = seg.split('=', 1)
+                    variable_value = seg.split('=', 1)
+                    if len(variable_value) == 1:
+                        variable = 'Default_Variable'
+                        value = variable_value[0]
+                    else:
+                        variable, value = variable_value
                     variable_list.append(variable)
                     # add it to variable_value
                     if path in self._m["variable_value"]:
@@ -96,6 +102,8 @@ class RecordBox:
                     self._m["variable_order"][path] = set()
                 self._m["variable_order"][path].add(tuple(variable_list))
 
+        self._m['path_set'] = set(self._m["path_list"])
+
     def __setitem__(self, key, value):
         raise LookupError("It is not allow to set the attribute.")
 
@@ -110,7 +118,8 @@ class RecordBox:
 if __name__ == '__main__':
     from FlowRecord import FlowRecord
     test_record_box = RecordBox()
-    with open('E:\\Lancer\\360WUA\\WUA_data_container\\Flow\\Demo\\flow_20s', 'rb') as infile:
+    with open('E:\\WUA_data_container\\data_container\\Skyeye_Sensor\\FLow\\'
+              'flow_mall.360.com_20151231_31\\flow_input', 'rb') as infile:
 
         for line in infile:
             line = line.strip(' \n').split('\t')
@@ -120,7 +129,8 @@ if __name__ == '__main__':
     print 'Record add finished.'
     test_record_box.active()
 
-    with open('E:\\Lancer\\360WUA\\WUA_data_container\\Flow\\Demo\\test_recordBox', 'wb') as outfile:
+    with open('E:\\WUA_data_container\\data_container\\Skyeye_Sensor\\FLow\\'
+              'flow_mall.360.com_20151231_31\Demo\\test_recordBox', 'wb') as outfile:
         # sip_num = test_record_box["sip_num"]
         # outfile.write("Sip_Num: %d\n" % sip_num)
 
@@ -138,9 +148,9 @@ if __name__ == '__main__':
         #         for t_specialSymbols, t_count in t_specialSymbols_dict.items():
         #             outfile.write('\t\t\t%s:\t%d\n' % (t_specialSymbols, t_count))
 
-        variable_value = test_record_box['variable_value']
+        t_variable_value = test_record_box['variable_value']
         outfile.write('Variable_Value:\n')
-        for t_path, t_variable_dict in variable_value.items():
+        for t_path, t_variable_dict in t_variable_value.items():
             outfile.write('\t%s:\n' % t_path)
             for t_variable, t_value_list in t_variable_dict.items():
                 outfile.write('\t\t%s:\n' % t_variable)

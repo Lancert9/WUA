@@ -12,9 +12,9 @@ __author__ = 'Lancer'
 (_access_time, _sip, _sport, _dip, _dport, _method, _uri, _host, _origin, _cookie, _uagent, _refer, _data) = range(13)
 
 flow_address = 'E:\\WUA_data_container\\data_container\\Skyeye_Sensor\\FLow\\' \
-               'flow_mall.360.com_20151231_31\\Demo\\flow_20s'
+               'flow_mall.360.com_20151231_31\\flow_input'
 host_stored_address = 'E:\\WUA_data_container\\data_container\\Complete_Model\\' \
-                      'flow_mall.360.com_20151231_31\\Demo\\Host_Collector'
+                      'flow_mall.360.com_20151231_31\\Host_Collector'
 
 
 def model_learn():
@@ -30,7 +30,7 @@ def model_learn():
                 current_model = host_collector.get_host_model(current_record['host'])
                 current_model.add_record(current_record)
                 record_num += 1
-                if record_num % 1000 == 0:
+                if record_num % 10000 == 0:
                     print 'Record completed: %s' % record_num
     print 'Study Records: %d' % record_num
     print 'Study Host Models: %d' % len(host_collector)
