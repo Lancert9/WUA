@@ -5,14 +5,14 @@
 from FlowRecord import FlowRecord
 from HostCollector import HostCollector
 import datetime
-import pickle
+import cPickle as cpickle
 
 __author__ = 'Lancer'
 
 (_access_time, _sip, _sport, _dip, _dport, _method, _uri, _host, _origin, _cookie, _uagent, _refer, _data) = range(13)
 
 
-def model_learn():
+def model_learn(flow_address, host_stored_address):
     host_collector = HostCollector()
 
     start_time = datetime.datetime.now()
@@ -38,12 +38,13 @@ def model_learn():
         print host_model
 
     with open(host_stored_address, 'wb') as store_host_collector:
-        pickle.dump(host_collector, store_host_collector)
+        cpickle.dump(host_collector, store_host_collector)
 
     print 'LEARN Module Finished.'
 
 if __name__ == '__main__':
-    model_learn()
     base_address = 'E:\\WUA_data_container\\data_container\\'
-    flow_address = basew''
-    host_stored_address = ''
+    a_flow_address = base_address + 'Skyeye_Sensor\\Flow_Filter_Attack\\mall.360.com_20151231_31\\normal'
+    a_host_stored_address = base_address + 'Complete_Model\\flow_mall.360.com_20151231_31\\Host_Collector.pickle'
+
+    model_learn(a_flow_address, a_host_stored_address)
