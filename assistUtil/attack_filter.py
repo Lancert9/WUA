@@ -4,18 +4,16 @@ __author__ = 'j-lijiawei'
 
 def input_attack_filter(attack_address, flow_address, output_address):
     (_time, _sip, _sport, _dip, _dport, _hostname, _content, _patten, _type) = range(9)
-    (f_time, f_sip, f_sport, f_dip, f_dport, f_method, f_uri, f_host, f_origin, f_cookie, f_uagent, f_refer, f_data) = range(13)
+    (f_time, f_sip, f_sport, f_dip, f_dport, f_method, f_uri, f_host, f_origin,
+     f_cookie, f_uagent, f_refer, f_data) = range(13)
 
     attack_para_pool = set()
     attack_path_pool = set()
     attack_agent_pool = set()
     attack_cookie_pool = set()
-    with open(attack_address, 'rb') as attack_inputfile, open(flow_address, 'rb') as flow_inputfile, open(output_address, 'wb') as outputfile:
-        i = 0
+    with open(attack_address, 'rb') as attack_inputfile, open(flow_address, 'rb') as flow_inputfile, \
+            open(output_address, 'wb') as outputfile:
         for line in attack_inputfile:
-            i += 1
-            if i % 100000 == 0:
-                print 'attack finished: ', i
             content = line.rstrip(' \n').split('\t')[_content]
             # print len('url参数值')
             if 'url参数值' in content:
@@ -50,13 +48,9 @@ def input_attack_filter(attack_address, flow_address, output_address):
             else:
                 print content
                 raise ValueError
-        j = 0
+
         for line in flow_inputfile:
-            j += 1
-            if j % 100000 == 0:
-                print "flow finished: ", j
-            line = line.rstrip('\n')
-            record = line.split('\t')
+            record = line.rstrip(' \n').split('\t')
             u_agent = record[f_uagent]
             u_cookie = record[f_cookie]
             if u_agent not in attack_agent_pool and u_cookie not in attack_cookie_pool:
@@ -80,13 +74,15 @@ def input_attack_filter(attack_address, flow_address, output_address):
 
 def output_attack_filter(attack_address, flow_address, in_attack_address, out_attack_address):
     (_time, _sip, _sport, _dip, _dport, _hostname, _content, _patten, _type) = range(9)
-    (f_time, f_sip, f_sport, f_dip, f_dport, f_method, f_uri, f_host, f_origin, f_cookie, f_uagent, f_refer, f_data) = range(13)
+    (f_time, f_sip, f_sport, f_dip, f_dport, f_method, f_uri, f_host, f_origin,
+     f_cookie, f_uagent, f_refer, f_data) = range(13)
 
     attack_para_pool = set()
     attack_path_pool = set()
     attack_agent_pool = set()
     attack_cookie_pool = set()
-    with open(attack_address, 'rb') as attack_inputfile, open(flow_address, 'rb') as flow_inputfile, open(in_attack_address, 'wb') as in_attack_file, open(out_attack_address, 'wb') as out_attack_file:
+    with open(attack_address, 'rb') as attack_inputfile, open(flow_address, 'rb') as flow_inputfile, \
+            open(in_attack_address, 'wb') as in_attack_file, open(out_attack_address, 'wb') as out_attack_file:
         i = 0
         for line in attack_inputfile:
             i += 1
@@ -147,7 +143,8 @@ def output_attack_filter(attack_address, flow_address, in_attack_address, out_at
                 record = line.split('\t')
                 u_agent = record[f_uagent]
                 u_cookie = record[f_cookie]
-                if u_agent not in attack_agent_pool and u_cookie not in attack_cookie_pool and u_cookie not in attack_agent_pool:
+                if u_agent not in attack_agent_pool and u_cookie not in attack_cookie_pool \
+                        and u_cookie not in attack_agent_pool:
                     url = record[f_uri]
                     path = url.split('?', 1)[0]
                     para = url.lstrip(path)
@@ -178,14 +175,15 @@ def output_attack_filter(attack_address, flow_address, in_attack_address, out_at
                     out_attack_file.write("\t%s\n" % content)
 
 if __name__ == '__main__':
-    # input_attack_address = 'E:\\Program Files\\PyCharm\\myWorkSpace\\WUA\\data_container\\Input_Attack\\skyeye-sensor_attack_20151112_31'
-    # input_flow_address = 'E:\\Program Files\\PyCharm\\myWorkSpace\\WUA\\data_container\\Input_Flow\\skyeye-sensor_20151112_31'
-    # filter_output_address = 'E:\\Program Files\\PyCharm\\myWorkSpace\\WUA\\data_container\\Input_Flow\\filtered_flow'
-    # input_attack_filter(input_attack_address, input_flow_address, filter_output_address)
+    input_attack_address = ''
+    input_flow_address = ''
+    filter_output_address = ''
+    input_attack_filter(input_attack_address, input_flow_address, filter_output_address)
 
-    input_attack_address = 'E:\\Program Files\\PyCharm\\myWorkSpace\\WUA\\data_container\\Input_Attack\\skyeye-sensor_attack_20151113_1'
-    input_result_address = 'E:\\Program Files\\PyCharm\\myWorkSpace\\WUA\\data_container\\Delete_Repetition\\result_filtered_huajiao_wvs_1113_DR'
-    filter_in_attack_address = 'E:\\Program Files\\PyCharm\\myWorkSpace\\WUA\\data_container\\Output_Attack_Filter\\result_in_attack_filtered_huajiao_wvs_1113_DR'
-    filter_out_attack_address = 'E:\\Program Files\\PyCharm\\myWorkSpace\\WUA\\data_container\\Output_Attack_Filter\\result_out_attack_filtered_huajiao_wvs_1113_DR'
-    output_attack_filter(input_attack_address, input_result_address, filter_in_attack_address, filter_out_attack_address)
+    # input_attack_address = ''
+    # input_result_address = ''
+    # filter_in_attack_address = ''
+    # filter_out_attack_address = ''
+    # output_attack_filter(input_attack_address, input_result_address,
+    #                      filter_in_attack_address, filter_out_attack_address)
 

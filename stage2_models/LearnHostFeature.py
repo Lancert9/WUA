@@ -11,11 +11,6 @@ __author__ = 'Lancer'
 
 (_access_time, _sip, _sport, _dip, _dport, _method, _uri, _host, _origin, _cookie, _uagent, _refer, _data) = range(13)
 
-flow_address = 'E:\\WUA_data_container\\data_container\\Skyeye_Sensor\\FLow\\' \
-               'flow_mall.360.com_20151231_31\\flow_input'
-host_stored_address = 'E:\\WUA_data_container\\data_container\\Complete_Model\\' \
-                      'flow_mall.360.com_20151231_31\\Host_Collector'
-
 
 def model_learn():
     host_collector = HostCollector()
@@ -49,3 +44,6 @@ def model_learn():
 
 if __name__ == '__main__':
     model_learn()
+    base_address = 'E:\\WUA_data_container\\data_container\\'
+    flow_address = basew''
+    host_stored_address = ''

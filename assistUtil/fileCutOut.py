@@ -1,7 +1,7 @@
 __author__ = 'j-lijiawei'
 
 
-def cutOut(in_add, out_add, c_len):
+def cut_out(in_add, out_add, c_len):
     try:
         with open(in_add, 'rb') as infile, open(out_add, 'wb') as outfile:
             for i in range(c_len):
@@ -14,7 +14,8 @@ def cutOut(in_add, out_add, c_len):
         print e
 
 if __name__ == '__main__':
-    infileAddress = 'E:\\Lancer\\360WUA\\WUA_data_container\\Flow\\Demo\\flow_415s'
-    outfileAddress = 'E:\\Lancer\\360WUA\\WUA_data_container\\Flow\\Demo\\flow_20s'
-    cutLength = 20
-    cutOut(infileAddress, outfileAddress, cutLength)
+    base_address = 'E:\\WUA_data_container\\data_container\\Skyeye_Sensor\\Attack\\attack_mall.360.com_20151231_31\\'
+    infileAddress = base_address + 'attack_input'
+    outfileAddress = base_address + 'attack_input_1000'
+    cutLength = 1000
+    cut_out(infileAddress, outfileAddress, cutLength)
