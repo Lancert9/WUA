@@ -16,7 +16,7 @@ def cal_chebyshev(a_num, a_mean, a_var):
         return 1 / (1 + epsilon2 / a_var)
 
 if __name__ == '__main__':
-    input_list = [1, 2, 3, 4, 5]
+    input_list = [1]
     data = Series(input_list)
     mean = data.mean()
     var = data.var()
@@ -26,3 +26,4 @@ if __name__ == '__main__':
     for x in range(10):
         prop = cal_chebyshev(x, mean, var)
         print "%s: %f" % (x, prop)
+        print "%s: %s" % (x, type(prop))

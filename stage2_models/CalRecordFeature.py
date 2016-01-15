@@ -71,11 +71,10 @@ def record_detect(flow_address, host_stored_address):
 if __name__ == '__main__':
     base_address = 'E:\\WUA_data_container\\data_container\\'
     a_host_stored_address = base_address + 'Complete_Model\\flow_mall.360.com_20151231_31\\Host_Collector.pickle'
-    a_flow_feature_stored_address = base_address + 'Flow_Feature\\flow_feature_mall.360.com_20151231_31'
+    a_flow_feature_stored_address = base_address + 'Flow_Feature\\mall.360.com_20160104_1\\flow_feature'
 
-    # flow_address = base_address + ''
-    a_normal_flow_address = base_address + 'Skyeye_Sensor\\Flow_Filter_Attack\\mall.360.com_20151231_31\\normal'
-    a_anomaly_flow_address = base_address + 'Skyeye_Sensor\\Flow_Filter_Attack\\mall.360.com_20151231_31\\anomaly'
+    a_normal_flow_address = base_address + 'Skyeye_Sensor\\Flow_Filter_Attack\\mall.360.com_20160104_1\\normal'
+    a_anomaly_flow_address = base_address + 'Skyeye_Sensor\\Flow_Filter_Attack\\mall.360.com_20160104_1\\anomaly'
 
     main(a_normal_flow_address, a_anomaly_flow_address, a_host_stored_address, a_flow_feature_stored_address)
     print 'Calculate Record Feature Module Finished.'

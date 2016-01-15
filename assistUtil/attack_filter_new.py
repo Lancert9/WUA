@@ -105,8 +105,8 @@ def attack_filter(flow_address, attack_address, normal_stored_address, anomaly_s
 
 if __name__ == '__main__':
     base_address = 'E:\\WUA_data_container\\data_container\\Skyeye_Sensor\\'
-    a_flow_address = base_address + '\\FLow\\flow_mall.360.com_20151231_31\\flow_input'
-    a_attack_address = base_address + 'Attack\\attack_mall.360.com_20151231_31\\attack_input'
-    a_normal_stored_address = base_address + 'Flow_Filter_Attack\\mall.360.com_20151231_31\\normal'
-    a_anomaly_stores_address = base_address + 'Flow_Filter_Attack\\mall.360.com_20151231_31\\anomaly'
+    a_flow_address = base_address + '\\FLow\\flow_mall.360.com_20160104_1\\flow_input'
+    a_attack_address = base_address + 'Attack\\attack_mall.360.com_20160107_5\\attack_input'
+    a_normal_stored_address = base_address + 'Flow_Filter_Attack\\mall.360.com_20160104_1\\normal'
+    a_anomaly_stores_address = base_address + 'Flow_Filter_Attack\\mall.360.com_20160104_1\\anomaly'
     attack_filter(a_flow_address, a_attack_address, a_normal_stored_address, a_anomaly_stores_address)
