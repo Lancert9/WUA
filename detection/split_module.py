@@ -14,6 +14,6 @@ def split(flow_feature_address, single_module_base_address):
 
 if __name__ == '__main__':
     base_address = 'E:\\WUA_data_container\\data_container\\Detect\\mall.360.com_20151231_31\\'
-    a_feature_address = base_address + 'train_feature'
-    a_single_module_base_address = base_address + '\\single module\\'
+    a_feature_address = base_address + 'train_feature_filled'
+    a_single_module_base_address = base_address + '\\single module\\train\\'
     split(a_feature_address, a_single_module_base_address)

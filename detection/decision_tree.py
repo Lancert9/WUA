@@ -4,6 +4,17 @@ from sklearn import tree
 
 __author__ = 'j-lijiawei'
 
+module_list = [
+                'path probability',
+                'special symbol probability',
+                'enumeration',
+                'variable composition',
+                'variable order',
+                'value length probability',
+                'value distribution 1',
+                'value distribution 2'
+]
+
 
 def get_data(feature_address, label_address):
     feature_list = list()
@@ -44,38 +55,65 @@ def metrics(test_label, predict_label):
 
     anomaly_record = anomaly_right + anomaly_wrong
     normal_record = normal_right + normal_wrong
-    print "Normal Number: %d" % normal_record
-    print "Anomaly Number: %d" % anomaly_record
+    total_record = anomaly_record + normal_record
+    predict_anomaly = normal_wrong + anomaly_right
 
-    print "Anomaly Right: %s" % anomaly_right
-    print "Anomaly Wrong: %s" % anomaly_wrong
+    print "Total Number: %d" % total_record,
+    print "\tNormal Number: %d" % normal_record,
+    print "\tAnomaly Number: %d" % anomaly_record
 
-    print "TP: %f" % (anomaly_right / anomaly_record)
+    print "Predict Anomaly: %s" % predict_anomaly
+
+    print "Precision rate: %f" % (anomaly_right / predict_anomaly)
+    print "Recall rate: %f" % (anomaly_right / anomaly_record)
+
+    print "\n"
 
 
 def whole_module(train_feature_address, train_label_address, test_feature_address, test_label_address):
     a_train_feature, a_train_label = get_data(train_feature_address, train_label_address)
-    print 'Load Train Data finished.'
     a_test_feature, a_test_label = get_data(test_feature_address, test_label_address)
-    print 'Load Test Data Finished.'
 
     a_predict_label = classify(a_train_feature, a_train_label, a_test_feature)
     print 'Module Classified Finished.'
 
-    classify(a_test_label, a_predict_label)
+    metrics(a_test_label, a_predict_label)
 
-def single_module()
+
+def single_module(single_train_feature_base_address, train_label_address,
+                  single_test_feature_base_address, test_label_address):
+    for i in range(8):
+        train_feature_address = single_train_feature_base_address + '_' + str(i)
+        a_train_feature, a_train_label = get_data(train_feature_address, train_label_address)
+
+        test_feature_address = single_test_feature_base_address + '_' + str(i)
+        a_test_feature, a_test_label = get_data(test_feature_address, test_label_address)
+
+        a_predict_label = classify(a_train_feature, a_train_label, a_test_feature)
+
+        print 'Module-%s:' % module_list[i]
+        metrics(a_test_label, a_predict_label)
+
 
 if __name__ == '__main__':
     base_address = 'E:\\WUA_data_container\\data_container\\Detect\\mall.360.com_20151231_31\\'
+    single_module_base_address = 'E:\\WUA_data_container\\data_container\\Detect\\mall.360.com_20151231_31\\' \
+                                 'single module\\'
+
     a_train_feature_address = base_address + 'train_feature_filled'
     a_train_label_address = base_address + 'train_label'
     a_test_feature_address = base_address + 'test_feature_filled'
     a_test_label_address = base_address + 'test_label'
 
+    a_single_train_feature_base_address = single_module_base_address + 'train\\'
+    a_single_test_feature_base_address = single_module_base_address + 'test\\'
+
+    print "WHOLE MODULE: "
     whole_module(a_train_feature_address, a_train_label_address, a_test_feature_address, a_test_label_address)
 
-    single_module(a_train_feature_address, a_train_label_address, a_test_feature_address, a_test_label_address)
+    print "SINGLE MODULE: "
+    single_module(a_single_train_feature_base_address, a_train_label_address,
+                  a_single_test_feature_base_address, a_test_label_address)
 
 
 
