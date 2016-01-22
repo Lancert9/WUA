@@ -95,12 +95,12 @@ def fill(feature_address, feature_filled, default_value_dict):
 
 
 if __name__ == '__main__':
-    base_address = 'E:\\WUA_data_container\\data_container\\Detect\\mall.360.com_20151231_31\\'
+    base_address = 'E:\\WUA_data_container\\data_container\\Detect\\xiaoshuo.360.cn_try_1\\'
     a_train_feature_address = base_address + 'train_feature'
     a_default_value_dict = cal_default(a_train_feature_address)
 
-    a_feature_address = base_address + 'test_feature'
-    a_feature_filled = base_address + 'test_feature_filled'
+    a_feature_address = base_address + 'train_feature'
+    a_feature_filled_address = base_address + 'train_feature_filled'
 
     pprint(a_default_value_dict)
-    fill(a_feature_address, a_feature_filled, a_default_value_dict)
+    fill(a_feature_address, a_feature_filled_address, a_default_value_dict)

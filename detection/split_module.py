@@ -13,7 +13,7 @@ def split(flow_feature_address, single_module_base_address):
         print "Module %d finished. Split Record %d" % (i, record_num)
 
 if __name__ == '__main__':
-    base_address = 'E:\\WUA_data_container\\data_container\\Detect\\mall.360.com_20151231_31\\'
-    a_feature_address = base_address + 'train_feature_filled'
-    a_single_module_base_address = base_address + '\\single module\\train\\'
+    base_address = 'E:\\WUA_data_container\\data_container\\Detect\\xiaoshuo.360.cn_try_1\\'
+    a_feature_address = base_address + 'test_feature_filled'
+    a_single_module_base_address = base_address + '\\single module\\test\\'
     split(a_feature_address, a_single_module_base_address)

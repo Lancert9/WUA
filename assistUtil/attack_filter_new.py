@@ -66,47 +66,57 @@ def attack_filter(flow_address, attack_address, normal_stored_address, anomaly_s
     with open(flow_address, 'rb') as flow_infile, open(normal_stored_address, 'wb') as normal_outfile, \
             open(anomaly_stores_address, 'wb') as anomaly_outfile:
         flow_record_num = 0
+        normal_record_num = 0
         for line in flow_infile:
             record = line.strip(' \n').split('\t')
             if len(record) == 13:
                 flow_record_num += 1
                 flow_record_ua = record[f_uagent]
                 flow_record_cookie = record[f_cookie]
-                if flow_record_ua in attack_ua_set:
+
+                attack_ua_set.add('Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; SLCC1;'
+                                  ' .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.0.04506; .NET CLR')
+                if flow_record_ua in attack_ua_set or '360SEC webscan' in flow_record_ua:
                     anomaly_outfile.write(line)
                 elif flow_record_cookie in attack_cookie_set:
                     anomaly_outfile.write(line)
                 else:
                     flow_record_uri = record[f_uri]
-                    if '?' in flow_record_uri:
-                        path, para = flow_record_uri.split('?', 1)
-                    else:
-                        path = flow_record_uri
-                        para = ''
-                    if path in attack_path_set:
+                    if '#vul_webscan' in flow_record_uri:
                         anomaly_outfile.write(line)
                     else:
-                        para_seg = para.split('&')
-                        value_list = list()
-                        for seg in para_seg:
-                            if '=' in seg:
-                                value = seg.split('=', 1)[1]
-                            else:
-                                value = seg
-                            value_list.append(value)
-                        the_value = ' '.join(value_list)
-                        if the_value in attack_value_set:
+                        if '?' in flow_record_uri:
+                            path, para = flow_record_uri.split('?', 1)
+                        else:
+                            path = flow_record_uri
+                            para = ''
+                        if path in attack_path_set:
                             anomaly_outfile.write(line)
                         else:
-                            normal_outfile.write(line)
+                            para_seg = para.split('&')
+                            value_list = list()
+                            for seg in para_seg:
+                                if '=' in seg:
+                                    value = seg.split('=', 1)[1]
+                                else:
+                                    value = seg
+                                value_list.append(value)
+                            the_value = ' '.join(value_list)
+                            if the_value in attack_value_set:
+                                anomaly_outfile.write(line)
+                            else:
+                                normal_record_num += 1
+                                normal_outfile.write(line)
 
         print 'Complete Flow Records: %s' % flow_record_num
+        print 'Normal Flow Records: %s' % normal_record_num
+        print 'Anomaly Flow Records: %s' % (flow_record_num - normal_record_num)
 
 
 if __name__ == '__main__':
     base_address = 'E:\\WUA_data_container\\data_container\\Skyeye_Sensor\\'
-    a_flow_address = base_address + '\\FLow\\flow_mall.360.com_20160104_1\\flow_input'
-    a_attack_address = base_address + 'Attack\\attack_mall.360.com_20160107_5\\attack_input'
-    a_normal_stored_address = base_address + 'Flow_Filter_Attack\\mall.360.com_20160104_1\\normal'
-    a_anomaly_stores_address = base_address + 'Flow_Filter_Attack\\mall.360.com_20160104_1\\anomaly'
+    a_flow_address = base_address + 'FLow\\flow_xiaoshuo.360.cn_20160116_32\\flow_input'
+    a_attack_address = base_address + 'Attack\\attack_xiaoshuo.360.cn_20160116_32\\attack_input'
+    a_normal_stored_address = base_address + 'Flow_Filter_Attack\\xiaoshuo.360.cn_20160116_32\\normal'
+    a_anomaly_stores_address = base_address + 'Flow_Filter_Attack\\xiaoshuo.360.cn_20160116_32\\anomaly'
     attack_filter(a_flow_address, a_attack_address, a_normal_stored_address, a_anomaly_stores_address)

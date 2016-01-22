@@ -44,7 +44,7 @@ def model_learn(flow_address, host_stored_address):
 
 if __name__ == '__main__':
     base_address = 'E:\\WUA_data_container\\data_container\\'
-    a_flow_address = base_address + 'Skyeye_Sensor\\Flow_Filter_Attack\\mall.360.com_20151231_31\\normal'
-    a_host_stored_address = base_address + 'Complete_Model\\flow_mall.360.com_20151231_31\\Host_Collector.pickle'
+    a_flow_address = base_address + 'Skyeye_Sensor\\Flow_Filter_Attack\\xiaoshuo.360.cn_20150930-20151215\\normal'
+    a_host_stored_address = base_address + 'Complete_Model\\xiaoshuo.360.cn_try_1\\Host_Collector.pickle'
 
     model_learn(a_flow_address, a_host_stored_address)

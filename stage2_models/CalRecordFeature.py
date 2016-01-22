@@ -4,7 +4,7 @@
 from FlowRecord import FlowRecord
 import RecordFeatureFunc as rfF
 import datetime
-import pickle
+import cPickle as cpickle
 
 __author__ = 'Lancer'
 
@@ -37,7 +37,7 @@ def main(normal_flow_address, anomaly_flow_address, host_stored_address, flow_fe
 
 def record_detect(flow_address, host_stored_address):
     with open(host_stored_address, 'rb') as host_collector_file:
-        host_collector = pickle.load(host_collector_file)
+        host_collector = cpickle.load(host_collector_file)
 
     flow_feature_list = []
     start_time = datetime.datetime.now()
@@ -70,11 +70,13 @@ def record_detect(flow_address, host_stored_address):
 
 if __name__ == '__main__':
     base_address = 'E:\\WUA_data_container\\data_container\\'
-    a_host_stored_address = base_address + 'Complete_Model\\flow_mall.360.com_20151231_31\\Host_Collector.pickle'
-    a_flow_feature_stored_address = base_address + 'Flow_Feature\\mall.360.com_20160104_1\\flow_feature'
+    a_host_stored_address = base_address + 'Complete_Model\\xiaoshuo.360.cn_try_1\\Host_Collector.pickle'
+    a_flow_feature_stored_address = base_address + 'Detect\\xiaoshuo.360.cn_try_1\\test_feature_label'
 
-    a_normal_flow_address = base_address + 'Skyeye_Sensor\\Flow_Filter_Attack\\mall.360.com_20160104_1\\normal'
-    a_anomaly_flow_address = base_address + 'Skyeye_Sensor\\Flow_Filter_Attack\\mall.360.com_20160104_1\\anomaly'
+    a_normal_flow_address = base_address + 'Skyeye_Sensor\\Flow_Filter_Attack\\' \
+                                           'xiaoshuo.360.cn_20160116_32_split\\test_normal'
+    a_anomaly_flow_address = base_address + 'Skyeye_Sensor\\Flow_Filter_Attack\\' \
+                                            'xiaoshuo.360.cn_20160116_32_split\\test_anomaly'
 
     main(a_normal_flow_address, a_anomaly_flow_address, a_host_stored_address, a_flow_feature_stored_address)
     print 'Calculate Record Feature Module Finished.'

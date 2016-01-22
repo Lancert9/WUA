@@ -297,8 +297,11 @@ def _cal_value_length_prop(flow_record, host_value_length_distribution):
                     mean = variable_dict[variable]['mean']
                     var = variable_dict[variable]['variance']
                     if value_length > mean:
-                        epsilon2 = (value_length - mean) ** 2
-                        prop = 1 / (1 + epsilon2 / var)
+                        if var != 0:
+                            epsilon2 = (value_length - mean) ** 2
+                            prop = 1 / (1 + epsilon2 / var)
+                        else:
+                            return 0
                     else:
                         prop = 1
                     length_prop_list.append(prop)

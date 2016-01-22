@@ -18,7 +18,7 @@ def id_map(feature_address, id_flow_address):
 
 if __name__ == '__main__':
     base_address = 'E:\\WUA_data_container\\data_container\\'
-    a_feature_address = base_address + 'Flow_Feature\\mall.360.com_20160104_1\\flow_feature'
-    a_id_flow_address = base_address + 'Flow_Feature\\mall.360.com_20160104_1\\id_feature.json'
+    a_feature_address = base_address + 'Detect\\xiaoshuo.360.cn_try_1\\test_feature_label'
+    a_id_flow_address = base_address + 'Detect\\xiaoshuo.360.cn_try_1\\test_id_feature.json'
 
     id_map(a_feature_address, a_id_flow_address)

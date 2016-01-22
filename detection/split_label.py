@@ -13,8 +13,8 @@ def split(flow_feature_label_address, flow_feature_address, flow_label_address):
         print "Split Record %d" % record_num
 
 if __name__ == '__main__':
-    base_address = 'E:\\WUA_data_container\\data_container\\Detect\\mall.360.com_20151231_31\\'
-    a_flow_feature_label_address = base_address + 'test_feature_label'
-    a_feature_address = base_address + 'test_feature'
-    a_label_address = base_address + 'test_label'
+    base_address = 'E:\\WUA_data_container\\data_container\\Detect\\xiaoshuo.360.cn_try_1\\'
+    a_flow_feature_label_address = base_address + 'train_feature_label'
+    a_feature_address = base_address + 'train_feature'
+    a_label_address = base_address + 'train_label'
     split(a_flow_feature_label_address, a_feature_address, a_label_address)

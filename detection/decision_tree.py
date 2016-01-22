@@ -1,6 +1,6 @@
 from __future__ import division
 import numpy as np
-from sklearn import tree
+from sklearn.tree import DecisionTreeClassifier
 
 __author__ = 'j-lijiawei'
 
@@ -31,8 +31,8 @@ def get_data(feature_address, label_address):
 
 
 def classify(train_feature, train_label, test_feature):
-    clf = tree.DecisionTreeClassifier()
-    clf = clf.fit(train_feature, train_label)
+    clf = DecisionTreeClassifier()
+    clf.fit(train_feature, train_label)
     return clf.predict(test_feature)
 
 
@@ -96,9 +96,9 @@ def single_module(single_train_feature_base_address, train_label_address,
 
 
 if __name__ == '__main__':
-    base_address = 'E:\\WUA_data_container\\data_container\\Detect\\mall.360.com_20151231_31\\'
-    single_module_base_address = 'E:\\WUA_data_container\\data_container\\Detect\\mall.360.com_20151231_31\\' \
-                                 'single module\\'
+    base_address = 'E:\\WUA_data_container\\data_container\\Detect\\xiaoshuo.360.cn_try_1\\'
+    single_module_base_address = 'E:\\WUA_data_container\\data_container\\Detect\\' \
+                                 'xiaoshuo.360.cn_try_1\\single module\\'
 
     a_train_feature_address = base_address + 'train_feature_filled'
     a_train_label_address = base_address + 'train_label'
@@ -114,6 +114,3 @@ if __name__ == '__main__':
     print "SINGLE MODULE: "
     single_module(a_single_train_feature_base_address, a_train_label_address,
                   a_single_test_feature_base_address, a_test_label_address)
-
-
-
