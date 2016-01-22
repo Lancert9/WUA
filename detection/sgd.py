@@ -1,6 +1,6 @@
 from __future__ import division
 import numpy as np
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import SGDClassifier
 import json
 
 __author__ = 'j-lijiawei'
@@ -32,7 +32,7 @@ def get_data(feature_address, label_address):
 
 
 def classify(train_feature, train_label, test_feature):
-    clf = DecisionTreeClassifier()
+    clf = SGDClassifier()
     clf.fit(train_feature, train_label)
     return clf.predict(test_feature)
 
@@ -88,7 +88,7 @@ def whole_module(train_feature_address, train_label_address,
     print 'Module Classified Finished.'
 
     metrics(a_test_label, a_predict_label)
-    save_error_record(a_test_label, a_predict_label, error_record_address)
+    # save_error_record(a_test_label, a_predict_label, error_record_address)
 
 
 def single_module(single_train_feature_base_address, train_label_address,

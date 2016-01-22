@@ -1,6 +1,6 @@
 from __future__ import division
 import numpy as np
-from sklearn.tree import DecisionTreeClassifier
+from sklearn import svm
 import json
 
 __author__ = 'j-lijiawei'
@@ -28,11 +28,11 @@ def get_data(feature_address, label_address):
         for line in infile:
             label = line.strip(' \n')
             label_list.append(label)
-    return np.array(feature_list, dtype=np.float32), np.array(label_list, dtype=np.int)
+    return np.array(feature_list), np.array(label_list)
 
 
 def classify(train_feature, train_label, test_feature):
-    clf = DecisionTreeClassifier()
+    clf = svm.SVC()
     clf.fit(train_feature, train_label)
     return clf.predict(test_feature)
 
@@ -45,11 +45,11 @@ def metrics(test_label, predict_label):
     anomaly_wrong = 0
     for t_p in zip(test_label, predict_label):
         record_num += 1
-        if t_p == (1, 1):
+        if t_p == ('1', '1'):
             normal_right += 1
-        elif t_p == (1, -1):
+        elif t_p == ('1', '-1'):
             anomaly_wrong += 1
-        elif t_p == (-1, -1):
+        elif t_p == ('-1', '-1'):
             anomaly_right += 1
         else:
             normal_wrong += 1
@@ -68,9 +68,9 @@ def metrics(test_label, predict_label):
 def save_error_record(test_label, predict_label, save_address):
     error_record_dict = {'FP': [], 'FN': []}
     for index, t_p in enumerate(zip(test_label, predict_label)):
-        if t_p == (1, -1):
+        if t_p == ('1', '-1'):
             error_record_dict['FP'].append(index + 1)
-        if t_p == (-1, 1):
+        if t_p == ('-1', '1'):
             error_record_dict['FN'].append(index + 1)
     print "FP Numbers: %s" % len(error_record_dict['FP'])
     print "FN Numbers: %s" % len(error_record_dict['FN'])
@@ -88,7 +88,7 @@ def whole_module(train_feature_address, train_label_address,
     print 'Module Classified Finished.'
 
     metrics(a_test_label, a_predict_label)
-    save_error_record(a_test_label, a_predict_label, error_record_address)
+    # save_error_record(a_test_label, a_predict_label, error_record_address)
 
 
 def single_module(single_train_feature_base_address, train_label_address,
